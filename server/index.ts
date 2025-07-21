@@ -17,5 +17,13 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // Catch-all for undefined API routes - return JSON error instead of HTML
+  app.use("/api/*", (_req, res) => {
+    res.status(404).json({
+      error: "API endpoint not found",
+      message: "The requested API endpoint does not exist"
+    });
+  });
+
   return app;
 }
