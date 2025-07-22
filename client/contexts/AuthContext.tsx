@@ -110,6 +110,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -117,15 +120,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Login failed');
+        let errorMessage = 'Login failed';
+        try {
+          const error = await response.json();
+          errorMessage = error.message || errorMessage;
+        } catch {
+          // If JSON parsing fails, use default message
+        }
+        throw new Error(errorMessage);
       }
 
-      const { user, token } = await response.json();
-      
+      const data = await response.json();
+      if (!data.user || !data.token) {
+        throw new Error('Invalid response from server');
+      }
+
+      const { user, token } = data;
+
       localStorage.setItem('auth_token', token);
       setAuthState({
         user,
@@ -133,12 +150,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isLoading: false,
       });
     } catch (error) {
+      clearTimeout(timeoutId);
+      if (error.name === 'AbortError') {
+        throw new Error('Login request timed out. Please try again.');
+      }
       console.error('Login error:', error);
       throw error;
     }
   };
 
   const register = async (name: string, email: string, password: string) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+
     try {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
@@ -146,15 +170,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ name, email, password }),
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Registration failed');
+        let errorMessage = 'Registration failed';
+        try {
+          const error = await response.json();
+          errorMessage = error.message || errorMessage;
+        } catch {
+          // If JSON parsing fails, use default message
+        }
+        throw new Error(errorMessage);
       }
 
-      const { user, token } = await response.json();
-      
+      const data = await response.json();
+      if (!data.user || !data.token) {
+        throw new Error('Invalid response from server');
+      }
+
+      const { user, token } = data;
+
       localStorage.setItem('auth_token', token);
       setAuthState({
         user,
@@ -162,6 +200,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isLoading: false,
       });
     } catch (error) {
+      clearTimeout(timeoutId);
+      if (error.name === 'AbortError') {
+        throw new Error('Registration request timed out. Please try again.');
+      }
       console.error('Registration error:', error);
       throw error;
     }
