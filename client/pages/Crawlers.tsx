@@ -3,7 +3,13 @@ import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -39,15 +45,15 @@ import {
   Edit,
   Trash2,
   ExternalLink,
-  RefreshCw
+  RefreshCw,
 } from "lucide-react";
 import { TableLoading, ButtonLoading } from "@/components/Loading";
-import { 
-  CrawlerStatus, 
-  CrawlerResponse, 
-  CrawlersListResponse, 
-  STATUS_LABELS, 
-  STATUS_COLORS 
+import {
+  CrawlerStatus,
+  CrawlerResponse,
+  CrawlersListResponse,
+  STATUS_LABELS,
+  STATUS_COLORS,
 } from "@shared/crawler";
 import { getDemoCrawlers } from "@/lib/demoData";
 import {
@@ -77,21 +83,21 @@ export default function Crawlers() {
   const fetchCrawlers = async () => {
     try {
       setIsLoading(true);
-      const token = localStorage.getItem('auth_token');
-      
+      const token = localStorage.getItem("auth_token");
+
       const params = new URLSearchParams({
         page: currentPage.toString(),
-        limit: '20',
+        limit: "20",
         sortBy,
         sortOrder,
       });
 
-      if (searchQuery) params.append('search', searchQuery);
-      if (statusFilter !== 'all') params.append('status', statusFilter);
+      if (searchQuery) params.append("search", searchQuery);
+      if (statusFilter !== "all") params.append("status", statusFilter);
 
       const response = await fetch(`/api/crawlers?${params}`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -102,10 +108,15 @@ export default function Crawlers() {
         setTotalPages(Math.ceil(data.total / data.limit));
       }
     } catch (error) {
-      console.error('Failed to fetch crawlers:', error);
+      console.error("Failed to fetch crawlers:", error);
 
       // Use demo data when API is not available
-      const demoData = getDemoCrawlers(currentPage, limit, searchQuery, statusFilter);
+      const demoData = getDemoCrawlers(
+        currentPage,
+        limit,
+        searchQuery,
+        statusFilter,
+      );
       setCrawlers(demoData.crawlers);
       setTotalCrawlers(demoData.total);
       setTotalPages(demoData.pages);
@@ -116,11 +127,11 @@ export default function Crawlers() {
 
   const deleteCrawler = async (id: string) => {
     try {
-      const token = localStorage.getItem('auth_token');
+      const token = localStorage.getItem("auth_token");
       const response = await fetch(`/api/crawlers/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -128,21 +139,21 @@ export default function Crawlers() {
         fetchCrawlers(); // Refresh the list
       }
     } catch (error) {
-      console.error('Failed to delete crawler:', error);
+      console.error("Failed to delete crawler:", error);
       // In demo mode, just remove from local state
-      setCrawlers(prev => prev.filter(c => c.id !== id));
-      setTotalCrawlers(prev => prev - 1);
+      setCrawlers((prev) => prev.filter((c) => c.id !== id));
+      setTotalCrawlers((prev) => prev - 1);
     }
   };
 
   const updateCrawlerStatus = async (id: string, status: CrawlerStatus) => {
     try {
-      const token = localStorage.getItem('auth_token');
+      const token = localStorage.getItem("auth_token");
       const response = await fetch(`/api/crawlers/${id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ status }),
       });
@@ -151,23 +162,25 @@ export default function Crawlers() {
         fetchCrawlers(); // Refresh the list
       }
     } catch (error) {
-      console.error('Failed to update crawler status:', error);
+      console.error("Failed to update crawler status:", error);
       // In demo mode, just update local state
-      setCrawlers(prev => prev.map(crawler =>
-        crawler.id === id
-          ? { ...crawler, status, updated_at: new Date().toISOString() }
-          : crawler
-      ));
+      setCrawlers((prev) =>
+        prev.map((crawler) =>
+          crawler.id === id
+            ? { ...crawler, status, updated_at: new Date().toISOString() }
+            : crawler,
+        ),
+      );
     }
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -194,14 +207,19 @@ export default function Crawlers() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Card className="glass border-border/50">
             <CardContent className="p-4">
-              <div className="text-2xl font-bold text-foreground">{totalCrawlers}</div>
+              <div className="text-2xl font-bold text-foreground">
+                {totalCrawlers}
+              </div>
               <p className="text-xs text-muted-foreground">Total Crawlers</p>
             </CardContent>
           </Card>
           <Card className="glass border-border/50">
             <CardContent className="p-4">
               <div className="text-2xl font-bold text-foreground">
-                {crawlers.filter(c => c.status === CrawlerStatus.IN_PROGRESS).length}
+                {
+                  crawlers.filter((c) => c.status === CrawlerStatus.IN_PROGRESS)
+                    .length
+                }
               </div>
               <p className="text-xs text-muted-foreground">In Progress</p>
             </CardContent>
@@ -209,7 +227,10 @@ export default function Crawlers() {
           <Card className="glass border-border/50">
             <CardContent className="p-4">
               <div className="text-2xl font-bold text-foreground">
-                {crawlers.filter(c => c.status === CrawlerStatus.COMPLETED).length}
+                {
+                  crawlers.filter((c) => c.status === CrawlerStatus.COMPLETED)
+                    .length
+                }
               </div>
               <p className="text-xs text-muted-foreground">Completed</p>
             </CardContent>
@@ -217,7 +238,10 @@ export default function Crawlers() {
           <Card className="glass border-border/50">
             <CardContent className="p-4">
               <div className="text-2xl font-bold text-foreground">
-                {crawlers.filter(c => c.status === CrawlerStatus.FAILED).length}
+                {
+                  crawlers.filter((c) => c.status === CrawlerStatus.FAILED)
+                    .length
+                }
               </div>
               <p className="text-xs text-muted-foreground">Failed</p>
             </CardContent>
@@ -236,7 +260,7 @@ export default function Crawlers() {
               className="pl-9 bg-background/50 border-border/50"
             />
           </div>
-          
+
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-[180px] bg-background/50 border-border/50">
               <Filter className="w-4 h-4 mr-2" />
@@ -252,8 +276,16 @@ export default function Crawlers() {
             </SelectContent>
           </Select>
 
-          <Button variant="outline" onClick={fetchCrawlers} disabled={isLoading}>
-            {isLoading ? <ButtonLoading /> : <RefreshCw className="w-4 h-4 mr-2" />}
+          <Button
+            variant="outline"
+            onClick={fetchCrawlers}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <ButtonLoading />
+            ) : (
+              <RefreshCw className="w-4 h-4 mr-2" />
+            )}
             Refresh
           </Button>
         </div>
@@ -266,10 +298,9 @@ export default function Crawlers() {
             ) : crawlers.length === 0 ? (
               <div className="text-center py-12">
                 <div className="text-muted-foreground mb-4">
-                  {searchQuery || statusFilter !== 'all' 
-                    ? 'No crawlers match your search criteria'
-                    : 'No crawlers found'
-                  }
+                  {searchQuery || statusFilter !== "all"
+                    ? "No crawlers match your search criteria"
+                    : "No crawlers found"}
                 </div>
                 <Button asChild className="btn-gradient">
                   <Link to="/dashboard/crawlers/new">
@@ -294,14 +325,16 @@ export default function Crawlers() {
                     <TableRow key={crawler.id}>
                       <TableCell className="font-medium">
                         <div>
-                          <div className="font-semibold text-foreground">{crawler.name}</div>
+                          <div className="font-semibold text-foreground">
+                            {crawler.name}
+                          </div>
                           <div className="text-sm text-muted-foreground truncate max-w-xs">
                             {crawler.description}
                           </div>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <a 
+                        <a
                           href={crawler.url}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -314,11 +347,16 @@ export default function Crawlers() {
                       <TableCell>
                         <Select
                           value={crawler.status}
-                          onValueChange={(value) => updateCrawlerStatus(crawler.id, value as CrawlerStatus)}
+                          onValueChange={(value) =>
+                            updateCrawlerStatus(
+                              crawler.id,
+                              value as CrawlerStatus,
+                            )
+                          }
                         >
                           <SelectTrigger className="w-auto border-0 bg-transparent p-0 h-auto">
-                            <Badge 
-                              variant="secondary" 
+                            <Badge
+                              variant="secondary"
                               className={`${STATUS_COLORS[crawler.status]} border cursor-pointer`}
                             >
                               {STATUS_LABELS[crawler.status]}
@@ -345,7 +383,9 @@ export default function Crawlers() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuItem asChild>
-                              <Link to={`/dashboard/crawlers/${crawler.id}/edit`}>
+                              <Link
+                                to={`/dashboard/crawlers/${crawler.id}/edit`}
+                              >
                                 <Edit className="w-4 h-4 mr-2" />
                                 Edit
                               </Link>
@@ -353,21 +393,27 @@ export default function Crawlers() {
                             <DropdownMenuSeparator />
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                <DropdownMenuItem
+                                  onSelect={(e) => e.preventDefault()}
+                                >
                                   <Trash2 className="w-4 h-4 mr-2" />
                                   Delete
                                 </DropdownMenuItem>
                               </AlertDialogTrigger>
                               <AlertDialogContent>
                                 <AlertDialogHeader>
-                                  <AlertDialogTitle>Delete Crawler</AlertDialogTitle>
+                                  <AlertDialogTitle>
+                                    Delete Crawler
+                                  </AlertDialogTitle>
                                   <AlertDialogDescription>
-                                    Are you sure you want to delete "{crawler.name}"? This action cannot be undone.
+                                    Are you sure you want to delete "
+                                    {crawler.name}"? This action cannot be
+                                    undone.
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                  <AlertDialogAction 
+                                  <AlertDialogAction
                                     onClick={() => deleteCrawler(crawler.id)}
                                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                   >
@@ -397,7 +443,7 @@ export default function Crawlers() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
               >
                 Previous
@@ -420,7 +466,9 @@ export default function Crawlers() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
                 disabled={currentPage === totalPages}
               >
                 Next

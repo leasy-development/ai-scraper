@@ -6,7 +6,13 @@ import { getDemoProperties, getDemoPropertyStats } from "@/lib/demoData";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
@@ -34,13 +40,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router-dom";
-import { 
-  Plus, 
-  Search, 
-  Filter, 
-  MoreHorizontal, 
-  Edit, 
-  Trash2, 
+import {
+  Plus,
+  Search,
+  Filter,
+  MoreHorizontal,
+  Edit,
+  Trash2,
   Home,
   Building,
   Building2,
@@ -49,21 +55,20 @@ import {
   Bath,
   Square,
   DollarSign,
-
   RefreshCw,
   Grid3x3,
-  List
+  List,
 } from "lucide-react";
 import { TableLoading, ButtonLoading } from "@/components/Loading";
-import { 
-  PropertyCategory, 
+import {
+  PropertyCategory,
   PropertyStatus,
-  PropertyResponse, 
-  PropertiesListResponse, 
-  CATEGORY_LABELS, 
-  STATUS_LABELS, 
+  PropertyResponse,
+  PropertiesListResponse,
+  CATEGORY_LABELS,
+  STATUS_LABELS,
   STATUS_COLORS,
-  CATEGORY_COLORS
+  CATEGORY_COLORS,
 } from "../../shared/property";
 
 export default function Properties() {
@@ -75,7 +80,7 @@ export default function Properties() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalProperties, setTotalProperties] = useState(0);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [activeTab, setActiveTab] = useState("all");
   const limit = 10;
 
@@ -90,20 +95,20 @@ export default function Properties() {
   const fetchProperties = async () => {
     try {
       setIsLoading(true);
-      const token = localStorage.getItem('auth_token');
-      
+      const token = localStorage.getItem("auth_token");
+
       const params = new URLSearchParams({
         page: currentPage.toString(),
-        limit: '12',
+        limit: "12",
       });
 
-      if (searchQuery) params.append('search', searchQuery);
-      if (categoryFilter !== 'all') params.append('category', categoryFilter);
-      if (statusFilter !== 'all') params.append('status', statusFilter);
+      if (searchQuery) params.append("search", searchQuery);
+      if (categoryFilter !== "all") params.append("category", categoryFilter);
+      if (statusFilter !== "all") params.append("status", statusFilter);
 
       const response = await fetch(`/api/properties?${params}`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -114,10 +119,16 @@ export default function Properties() {
         setTotalPages(Math.ceil(data.total / data.limit));
       }
     } catch (error) {
-      console.error('Failed to fetch properties:', error);
+      console.error("Failed to fetch properties:", error);
 
       // Use demo data when API is not available
-      const demoData = getDemoProperties(currentPage, limit, searchQuery, categoryFilter, statusFilter);
+      const demoData = getDemoProperties(
+        currentPage,
+        limit,
+        searchQuery,
+        categoryFilter,
+        statusFilter,
+      );
       setProperties(demoData.properties);
       setTotalProperties(demoData.total);
       setTotalPages(demoData.pages);
@@ -128,10 +139,10 @@ export default function Properties() {
 
   const fetchStats = async () => {
     try {
-      const token = localStorage.getItem('auth_token');
-      const response = await fetch('/api/properties/stats', {
+      const token = localStorage.getItem("auth_token");
+      const response = await fetch("/api/properties/stats", {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -140,7 +151,7 @@ export default function Properties() {
         setStats(data);
       }
     } catch (error) {
-      console.error('Failed to fetch stats:', error);
+      console.error("Failed to fetch stats:", error);
 
       // Use demo stats when API is not available
       setStats(getDemoPropertyStats());
@@ -149,11 +160,11 @@ export default function Properties() {
 
   const deleteProperty = async (id: string) => {
     try {
-      const token = localStorage.getItem('auth_token');
+      const token = localStorage.getItem("auth_token");
       const response = await fetch(`/api/properties/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -162,13 +173,13 @@ export default function Properties() {
         fetchStats();
       }
     } catch (error) {
-      console.error('Failed to delete property:', error);
+      console.error("Failed to delete property:", error);
     }
   };
 
   const formatPrice = (price: number, currency: string) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
       currency: currency,
     }).format(price);
   };
@@ -187,7 +198,9 @@ export default function Properties() {
   };
 
   const CategoryStats = ({ category }: { category: PropertyCategory }) => {
-    const categoryProperties = properties.filter(p => p.category === category);
+    const categoryProperties = properties.filter(
+      (p) => p.category === category,
+    );
     const totalForCategory = stats?.by_category[category] || 0;
 
     return (
@@ -196,20 +209,24 @@ export default function Properties() {
           <CardTitle className="text-sm font-medium text-muted-foreground">
             {CATEGORY_LABELS[category]}
           </CardTitle>
-          <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${
-            category === PropertyCategory.FURNISHED_APARTMENT ? 'from-purple-500 to-purple-600' :
-            category === PropertyCategory.FURNISHED_HOUSE ? 'from-emerald-500 to-emerald-600' :
-            'from-orange-500 to-orange-600'
-          } p-2`}>
+          <div
+            className={`w-10 h-10 rounded-lg bg-gradient-to-r ${
+              category === PropertyCategory.FURNISHED_APARTMENT
+                ? "from-purple-500 to-purple-600"
+                : category === PropertyCategory.FURNISHED_HOUSE
+                  ? "from-emerald-500 to-emerald-600"
+                  : "from-orange-500 to-orange-600"
+            } p-2`}
+          >
             {getCategoryIcon(category)}
           </div>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-foreground">
-            {isLoading ? '...' : totalForCategory}
+            {isLoading ? "..." : totalForCategory}
           </div>
           <p className="text-xs text-muted-foreground mt-1">
-            {totalForCategory === 1 ? 'property' : 'properties'}
+            {totalForCategory === 1 ? "property" : "properties"}
           </p>
         </CardContent>
       </Card>
@@ -222,8 +239,8 @@ export default function Properties() {
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-2">
             {getCategoryIcon(property.category)}
-            <Badge 
-              variant="secondary" 
+            <Badge
+              variant="secondary"
               className={`${CATEGORY_COLORS[property.category]} border text-xs`}
             >
               {CATEGORY_LABELS[property.category]}
@@ -231,7 +248,11 @@ export default function Properties() {
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="opacity-0 group-hover:opacity-100 transition-opacity"
+              >
                 <MoreHorizontal className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -254,12 +275,13 @@ export default function Properties() {
                   <AlertDialogHeader>
                     <AlertDialogTitle>Delete Property</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Are you sure you want to delete "{property.title}"? This action cannot be undone.
+                      Are you sure you want to delete "{property.title}"? This
+                      action cannot be undone.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction 
+                    <AlertDialogAction
                       onClick={() => deleteProperty(property.id)}
                       className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                     >
@@ -273,14 +295,14 @@ export default function Properties() {
         </div>
 
         <div className="space-y-2">
-          <h3 className="font-semibold text-lg text-foreground line-clamp-1">{property.title}</h3>
+          <h3 className="font-semibold text-lg text-foreground line-clamp-1">
+            {property.title}
+          </h3>
           <div className="flex items-center text-muted-foreground text-sm">
             <MapPin className="w-4 h-4 mr-1" />
             <span className="line-clamp-1">{property.address}</span>
           </div>
         </div>
-
-
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -306,7 +328,9 @@ export default function Properties() {
         <div className="pt-4 border-t border-border/50">
           <div className="text-xl font-bold text-foreground">
             {formatPrice(property.price, property.currency)}
-            <span className="text-sm font-normal text-muted-foreground">/month</span>
+            <span className="text-sm font-normal text-muted-foreground">
+              /month
+            </span>
           </div>
         </div>
       </CardContent>
@@ -353,7 +377,7 @@ export default function Properties() {
                   className="pl-9 bg-background/50 border-border/50"
                 />
               </div>
-              
+
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                 <SelectTrigger className="w-[200px] bg-background/50 border-border/50">
                   <SelectValue placeholder="Filter by category" />
@@ -384,23 +408,31 @@ export default function Properties() {
 
               <div className="flex items-center space-x-2">
                 <Button
-                  variant={viewMode === 'grid' ? 'default' : 'outline'}
+                  variant={viewMode === "grid" ? "default" : "outline"}
                   size="icon"
-                  onClick={() => setViewMode('grid')}
+                  onClick={() => setViewMode("grid")}
                 >
                   <Grid3x3 className="w-4 h-4" />
                 </Button>
                 <Button
-                  variant={viewMode === 'list' ? 'default' : 'outline'}
+                  variant={viewMode === "list" ? "default" : "outline"}
                   size="icon"
-                  onClick={() => setViewMode('list')}
+                  onClick={() => setViewMode("list")}
                 >
                   <List className="w-4 h-4" />
                 </Button>
               </div>
 
-              <Button variant="outline" onClick={fetchProperties} disabled={isLoading}>
-                {isLoading ? <ButtonLoading /> : <RefreshCw className="w-4 h-4 mr-2" />}
+              <Button
+                variant="outline"
+                onClick={fetchProperties}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <ButtonLoading />
+                ) : (
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                )}
                 Refresh
               </Button>
             </div>
@@ -415,10 +447,11 @@ export default function Properties() {
             <Card className="glass border-border/50">
               <CardContent className="text-center py-12">
                 <div className="text-muted-foreground mb-4">
-                  {searchQuery || categoryFilter !== 'all' || statusFilter !== 'all'
-                    ? 'No properties match your search criteria'
-                    : 'No properties found'
-                  }
+                  {searchQuery ||
+                  categoryFilter !== "all" ||
+                  statusFilter !== "all"
+                    ? "No properties match your search criteria"
+                    : "No properties found"}
                 </div>
                 <Button asChild className="btn-gradient">
                   <Link to="/dashboard/properties/new">
@@ -429,10 +462,13 @@ export default function Properties() {
               </CardContent>
             </Card>
           ) : (
-            <div className={viewMode === 'grid' 
-              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
-              : "space-y-4"
-            }>
+            <div
+              className={
+                viewMode === "grid"
+                  ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                  : "space-y-4"
+              }
+            >
               {properties.map((property) => (
                 <PropertyCard key={property.id} property={property} />
               ))}
@@ -450,7 +486,7 @@ export default function Properties() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
               >
                 Previous
@@ -473,7 +509,9 @@ export default function Properties() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
                 disabled={currentPage === totalPages}
               >
                 Next

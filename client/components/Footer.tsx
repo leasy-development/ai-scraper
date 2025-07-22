@@ -1,13 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import {
-  Bot,
-  Github,
-  Twitter,
-  Linkedin,
-  Mail,
-  Heart
-} from "lucide-react";
+import { Bot, Github, Twitter, Linkedin, Mail, Heart } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -50,10 +43,11 @@ export function Footer() {
               <span className="font-bold text-xl gradient-text">AiScraper</span>
             </Link>
             <p className="text-muted-foreground text-sm mb-6 max-w-sm">
-              A powerful web crawler management tool for developers and administrators.
-              Monitor, configure, and track your scraping operations.
+              A powerful web crawler management tool for developers and
+              administrators. Monitor, configure, and track your scraping
+              operations.
             </p>
-            
+
             {/* Social Links */}
             <div className="flex space-x-2">
               {socialLinks.map((social) => (
@@ -64,7 +58,7 @@ export function Footer() {
                   asChild
                   className="hover-glow"
                 >
-                  <a 
+                  <a
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -135,7 +129,7 @@ export function Footer() {
             <div className="text-sm text-muted-foreground mb-4 md:mb-0">
               © {currentYear} AiScraper. All rights reserved.
             </div>
-            
+
             <div className="flex items-center text-sm text-muted-foreground">
               <span>Made with</span>
               <Heart className="w-4 h-4 mx-1 text-red-500 fill-current" />

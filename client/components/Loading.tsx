@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 interface LoadingProps {
-  variant?: 'spinner' | 'dots' | 'pulse' | 'brand' | 'minimal';
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  variant?: "spinner" | "dots" | "pulse" | "brand" | "minimal";
+  size?: "sm" | "md" | "lg" | "xl";
   text?: string;
   className?: string;
   fullScreen?: boolean;
@@ -15,36 +15,36 @@ interface LoadingProps {
 }
 
 export default function Loading({
-  variant = 'spinner',
-  size = 'md',
+  variant = "spinner",
+  size = "md",
   text,
   className,
   fullScreen = false,
   timeout,
   onTimeout,
-  showTimeoutWarning = true
+  showTimeoutWarning = true,
 }: LoadingProps) {
   const [showWarning, setShowWarning] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
 
   const sizeClasses = {
-    sm: 'w-4 h-4',
-    md: 'w-6 h-6',
-    lg: 'w-8 h-8',
-    xl: 'w-12 h-12'
+    sm: "w-4 h-4",
+    md: "w-6 h-6",
+    lg: "w-8 h-8",
+    xl: "w-12 h-12",
   };
 
   const textSizeClasses = {
-    sm: 'text-sm',
-    md: 'text-base',
-    lg: 'text-lg',
-    xl: 'text-xl'
+    sm: "text-sm",
+    md: "text-base",
+    lg: "text-lg",
+    xl: "text-xl",
   };
 
   const containerClasses = cn(
     "flex items-center justify-center",
     fullScreen && "min-h-screen w-full",
-    className
+    className,
   );
 
   useEffect(() => {
@@ -78,9 +78,12 @@ export default function Loading({
             <AlertTriangle className="w-6 h-6 text-destructive" />
           </div>
           <div>
-            <h3 className="font-medium text-foreground mb-1">Taking longer than expected</h3>
+            <h3 className="font-medium text-foreground mb-1">
+              Taking longer than expected
+            </h3>
             <p className="text-sm text-muted-foreground mb-4">
-              This operation is taking longer than usual. There might be a connectivity issue.
+              This operation is taking longer than usual. There might be a
+              connectivity issue.
             </p>
             <Button
               variant="outline"
@@ -98,17 +101,29 @@ export default function Loading({
 
   const renderLoadingIcon = () => {
     const iconClasses = cn(sizeClasses[size], "animate-spin text-primary");
-    
+
     switch (variant) {
-      case 'brand':
+      case "brand":
         return (
           <div className="relative">
-            <div className={cn(sizeClasses[size], "rounded-lg bg-gradient-to-r from-primary to-gradient-via flex items-center justify-center animate-pulse")}>
-              <Bot className={cn(sizeClasses[size === 'xl' ? 'lg' : size === 'lg' ? 'md' : 'sm'], "text-white")} />
+            <div
+              className={cn(
+                sizeClasses[size],
+                "rounded-lg bg-gradient-to-r from-primary to-gradient-via flex items-center justify-center animate-pulse",
+              )}
+            >
+              <Bot
+                className={cn(
+                  sizeClasses[
+                    size === "xl" ? "lg" : size === "lg" ? "md" : "sm"
+                  ],
+                  "text-white",
+                )}
+              />
             </div>
           </div>
         );
-      case 'dots':
+      case "dots":
         return (
           <div className="flex space-x-1">
             {[0, 1, 2].map((i) => (
@@ -116,27 +131,37 @@ export default function Loading({
                 key={i}
                 className={cn(
                   "rounded-full bg-primary animate-bounce",
-                  size === 'sm' && "w-2 h-2",
-                  size === 'md' && "w-3 h-3", 
-                  size === 'lg' && "w-4 h-4",
-                  size === 'xl' && "w-5 h-5"
+                  size === "sm" && "w-2 h-2",
+                  size === "md" && "w-3 h-3",
+                  size === "lg" && "w-4 h-4",
+                  size === "xl" && "w-5 h-5",
                 )}
                 style={{
                   animationDelay: `${i * 0.1}s`,
-                  animationDuration: '0.6s'
+                  animationDuration: "0.6s",
                 }}
               />
             ))}
           </div>
         );
-      case 'pulse':
+      case "pulse":
         return (
           <div className="relative">
-            <div className={cn(sizeClasses[size], "rounded-full bg-primary/20 animate-ping")} />
-            <div className={cn(sizeClasses[size], "absolute top-0 left-0 rounded-full bg-primary animate-pulse")} />
+            <div
+              className={cn(
+                sizeClasses[size],
+                "rounded-full bg-primary/20 animate-ping",
+              )}
+            />
+            <div
+              className={cn(
+                sizeClasses[size],
+                "absolute top-0 left-0 rounded-full bg-primary animate-pulse",
+              )}
+            />
           </div>
         );
-      case 'minimal':
+      case "minimal":
         return <RefreshCw className={iconClasses} />;
       default:
         return <Loader2 className={iconClasses} />;
@@ -148,10 +173,12 @@ export default function Loading({
       <div className="flex flex-col items-center space-y-2">
         {renderLoadingIcon()}
         {text && (
-          <p className={cn(
-            "text-muted-foreground font-medium",
-            textSizeClasses[size]
-          )}>
+          <p
+            className={cn(
+              "text-muted-foreground font-medium",
+              textSizeClasses[size],
+            )}
+          >
             {text}
           </p>
         )}
@@ -181,28 +208,24 @@ export function CardLoading({ text }: { text?: string }) {
   );
 }
 
-export function ButtonLoading({ size = 'sm' }: { size?: 'sm' | 'md' }) {
+export function ButtonLoading({ size = "sm" }: { size?: "sm" | "md" }) {
   return <Loading variant="spinner" size={size} className="mr-2" />;
 }
 
 export function TableLoading() {
   return (
     <div className="flex items-center justify-center py-12">
-      <Loading 
-        variant="dots" 
-        size="md" 
-        text="Loading data..." 
-      />
+      <Loading variant="dots" size="md" text="Loading data..." />
     </div>
   );
 }
 
-export function DataLoading({ 
-  title = "Loading", 
-  description 
-}: { 
-  title?: string; 
-  description?: string; 
+export function DataLoading({
+  title = "Loading",
+  description,
+}: {
+  title?: string;
+  description?: string;
 }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4">
@@ -262,11 +285,11 @@ interface LoadingWrapperProps {
   overlay?: boolean;
 }
 
-export function LoadingWrapper({ 
-  loading, 
-  children, 
+export function LoadingWrapper({
+  loading,
+  children,
   fallback,
-  overlay = false 
+  overlay = false,
 }: LoadingWrapperProps) {
   if (!loading) return <>{children}</>;
 

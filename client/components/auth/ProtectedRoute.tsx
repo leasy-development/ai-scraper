@@ -19,7 +19,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
         fullScreen
         timeout={15000} // 15 second timeout
         onTimeout={() => {
-          console.error('Auth verification timed out');
+          console.error("Auth verification timed out");
           // Force reload to try again
           window.location.reload();
         }}

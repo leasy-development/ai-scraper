@@ -1,9 +1,28 @@
-import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { toast } from '@/hooks/use-toast';
-import { ToastAction } from '@/components/ui/toast';
-import { CheckCircle, AlertTriangle, XCircle, Info, Bell, Zap } from 'lucide-react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
+import { toast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import {
+  CheckCircle,
+  AlertTriangle,
+  XCircle,
+  Info,
+  Bell,
+  Zap,
+} from "lucide-react";
 
-export type NotificationType = 'success' | 'error' | 'warning' | 'info' | 'loading' | 'custom';
+export type NotificationType =
+  | "success"
+  | "error"
+  | "warning"
+  | "info"
+  | "loading"
+  | "custom";
 
 export interface Notification {
   id: string;
@@ -24,15 +43,31 @@ export interface Notification {
 export interface NotificationContextType {
   notifications: Notification[];
   unreadCount: number;
-  
+
   // Core notification functions
-  notify: (notification: Omit<Notification, 'id' | 'timestamp'>) => string;
-  success: (title: string, message?: string, options?: Partial<Notification>) => string;
-  error: (title: string, message?: string, options?: Partial<Notification>) => string;
-  warning: (title: string, message?: string, options?: Partial<Notification>) => string;
-  info: (title: string, message?: string, options?: Partial<Notification>) => string;
+  notify: (notification: Omit<Notification, "id" | "timestamp">) => string;
+  success: (
+    title: string,
+    message?: string,
+    options?: Partial<Notification>,
+  ) => string;
+  error: (
+    title: string,
+    message?: string,
+    options?: Partial<Notification>,
+  ) => string;
+  warning: (
+    title: string,
+    message?: string,
+    options?: Partial<Notification>,
+  ) => string;
+  info: (
+    title: string,
+    message?: string,
+    options?: Partial<Notification>,
+  ) => string;
   loading: (title: string, message?: string) => string;
-  
+
   // Management functions
   dismiss: (id: string) => void;
   dismissAll: () => void;
@@ -40,16 +75,18 @@ export interface NotificationContextType {
   markAllAsRead: () => void;
   remove: (id: string) => void;
   removeAll: () => void;
-  
+
   // Update functions
   updateNotification: (id: string, updates: Partial<Notification>) => void;
-  
+
   // Batch operations
   getNotificationsByType: (type: NotificationType) => Notification[];
   getUnreadNotifications: () => Notification[];
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+const NotificationContext = createContext<NotificationContextType | undefined>(
+  undefined,
+);
 
 const NOTIFICATION_ICONS = {
   success: <CheckCircle className="w-5 h-5 text-green-500" />,
@@ -69,7 +106,11 @@ const DEFAULT_DURATIONS = {
   custom: 5000,
 };
 
-export function NotificationProvider({ children }: { children: React.ReactNode }) {
+export function NotificationProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   // Auto-dismiss notifications after their duration
@@ -77,7 +118,11 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     const timers: NodeJS.Timeout[] = [];
 
     notifications.forEach((notification) => {
-      if (notification.duration && notification.duration > 0 && !notification.persistent) {
+      if (
+        notification.duration &&
+        notification.duration > 0 &&
+        !notification.persistent
+      ) {
         const timer = setTimeout(() => {
           dismiss(notification.id);
         }, notification.duration);
@@ -86,7 +131,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     });
 
     return () => {
-      timers.forEach(timer => clearTimeout(timer));
+      timers.forEach((timer) => clearTimeout(timer));
     };
   }, [notifications]);
 
@@ -94,87 +139,110 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     return `notification-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }, []);
 
-  const notify = useCallback((notificationData: Omit<Notification, 'id' | 'timestamp'>) => {
-    const id = generateId();
-    const timestamp = new Date();
-    
-    const notification: Notification = {
-      ...notificationData,
-      id,
-      timestamp,
-      duration: notificationData.duration ?? DEFAULT_DURATIONS[notificationData.type],
-      icon: notificationData.icon ?? NOTIFICATION_ICONS[notificationData.type],
-      read: false,
-    };
+  const notify = useCallback(
+    (notificationData: Omit<Notification, "id" | "timestamp">) => {
+      const id = generateId();
+      const timestamp = new Date();
 
-    setNotifications(prev => [notification, ...prev]);
+      const notification: Notification = {
+        ...notificationData,
+        id,
+        timestamp,
+        duration:
+          notificationData.duration ?? DEFAULT_DURATIONS[notificationData.type],
+        icon:
+          notificationData.icon ?? NOTIFICATION_ICONS[notificationData.type],
+        read: false,
+      };
 
-    // Also show as toast for immediate feedback
-    const variant = notification.type === 'error' ? 'destructive' : 'default';
-    
-    toast({
-      variant,
-      title: notification.title,
-      description: notification.message,
-      duration: notification.type === 'loading' ? undefined : (notification.duration || 4000),
-      // TODO: Fix action type issues
-      // action: notification.action ? React.createElement(ToastAction, {
-      //   altText: notification.action.label,
-      //   onClick: notification.action.onClick,
-      //   children: notification.action.label,
-      // }) : undefined,
-    });
+      setNotifications((prev) => [notification, ...prev]);
 
-    return id;
-  }, [generateId]);
+      // Also show as toast for immediate feedback
+      const variant = notification.type === "error" ? "destructive" : "default";
 
-  const success = useCallback((title: string, message?: string, options?: Partial<Notification>) => {
-    return notify({
-      type: 'success',
-      title,
-      message,
-      ...options,
-    });
-  }, [notify]);
+      toast({
+        variant,
+        title: notification.title,
+        description: notification.message,
+        duration:
+          notification.type === "loading"
+            ? undefined
+            : notification.duration || 4000,
+        // TODO: Fix action type issues
+        // action: notification.action ? React.createElement(ToastAction, {
+        //   altText: notification.action.label,
+        //   onClick: notification.action.onClick,
+        //   children: notification.action.label,
+        // }) : undefined,
+      });
 
-  const error = useCallback((title: string, message?: string, options?: Partial<Notification>) => {
-    return notify({
-      type: 'error',
-      title,
-      message,
-      ...options,
-    });
-  }, [notify]);
+      return id;
+    },
+    [generateId],
+  );
 
-  const warning = useCallback((title: string, message?: string, options?: Partial<Notification>) => {
-    return notify({
-      type: 'warning',
-      title,
-      message,
-      ...options,
-    });
-  }, [notify]);
+  const success = useCallback(
+    (title: string, message?: string, options?: Partial<Notification>) => {
+      return notify({
+        type: "success",
+        title,
+        message,
+        ...options,
+      });
+    },
+    [notify],
+  );
 
-  const info = useCallback((title: string, message?: string, options?: Partial<Notification>) => {
-    return notify({
-      type: 'info',
-      title,
-      message,
-      ...options,
-    });
-  }, [notify]);
+  const error = useCallback(
+    (title: string, message?: string, options?: Partial<Notification>) => {
+      return notify({
+        type: "error",
+        title,
+        message,
+        ...options,
+      });
+    },
+    [notify],
+  );
 
-  const loading = useCallback((title: string, message?: string) => {
-    return notify({
-      type: 'loading',
-      title,
-      message,
-      persistent: true,
-    });
-  }, [notify]);
+  const warning = useCallback(
+    (title: string, message?: string, options?: Partial<Notification>) => {
+      return notify({
+        type: "warning",
+        title,
+        message,
+        ...options,
+      });
+    },
+    [notify],
+  );
+
+  const info = useCallback(
+    (title: string, message?: string, options?: Partial<Notification>) => {
+      return notify({
+        type: "info",
+        title,
+        message,
+        ...options,
+      });
+    },
+    [notify],
+  );
+
+  const loading = useCallback(
+    (title: string, message?: string) => {
+      return notify({
+        type: "loading",
+        title,
+        message,
+        persistent: true,
+      });
+    },
+    [notify],
+  );
 
   const dismiss = useCallback((id: string) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
   }, []);
 
   const dismissAll = useCallback(() => {
@@ -182,37 +250,41 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   }, []);
 
   const markAsRead = useCallback((id: string) => {
-    setNotifications(prev => 
-      prev.map(n => n.id === id ? { ...n, read: true } : n)
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n)),
     );
   }, []);
 
   const markAllAsRead = useCallback(() => {
-    setNotifications(prev => 
-      prev.map(n => ({ ...n, read: true }))
-    );
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
   }, []);
 
   const remove = useCallback((id: string) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
   }, []);
 
   const removeAll = useCallback(() => {
     setNotifications([]);
   }, []);
 
-  const updateNotification = useCallback((id: string, updates: Partial<Notification>) => {
-    setNotifications(prev =>
-      prev.map(n => n.id === id ? { ...n, ...updates } : n)
-    );
-  }, []);
+  const updateNotification = useCallback(
+    (id: string, updates: Partial<Notification>) => {
+      setNotifications((prev) =>
+        prev.map((n) => (n.id === id ? { ...n, ...updates } : n)),
+      );
+    },
+    [],
+  );
 
-  const getNotificationsByType = useCallback((type: NotificationType) => {
-    return notifications.filter(n => n.type === type);
-  }, [notifications]);
+  const getNotificationsByType = useCallback(
+    (type: NotificationType) => {
+      return notifications.filter((n) => n.type === type);
+    },
+    [notifications],
+  );
 
   const getUnreadNotifications = useCallback(() => {
-    return notifications.filter(n => !n.read);
+    return notifications.filter((n) => !n.read);
   }, [notifications]);
 
   const unreadCount = getUnreadNotifications().length;
@@ -247,15 +319,25 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 export function useNotifications() {
   const context = useContext(NotificationContext);
   if (context === undefined) {
-    throw new Error('useNotifications must be used within a NotificationProvider');
+    throw new Error(
+      "useNotifications must be used within a NotificationProvider",
+    );
   }
   return context;
 }
 
 // Convenience hooks for specific notification types
 export function useNotificationActions() {
-  const { success, error, warning, info, loading, updateNotification, dismiss } = useNotifications();
-  
+  const {
+    success,
+    error,
+    warning,
+    info,
+    loading,
+    updateNotification,
+    dismiss,
+  } = useNotifications();
+
   return {
     success,
     error,
@@ -271,10 +353,10 @@ export function useNotificationActions() {
         loading: string;
         success: string;
         error?: string;
-      }
+      },
     ): Promise<T> => {
       const loadingId = loading(messages.loading);
-      
+
       try {
         const result = await promise;
         dismiss(loadingId);
@@ -282,7 +364,10 @@ export function useNotificationActions() {
         return result;
       } catch (err) {
         dismiss(loadingId);
-        error(messages.error || 'Operation failed', err instanceof Error ? err.message : 'Unknown error');
+        error(
+          messages.error || "Operation failed",
+          err instanceof Error ? err.message : "Unknown error",
+        );
         throw err;
       }
     },

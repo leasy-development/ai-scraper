@@ -2,17 +2,17 @@
  * System health check utility for monitoring application stability
  */
 
-import { api } from './api';
+import { api } from "./api";
 
 export interface HealthCheckResult {
   endpoint: string;
-  status: 'healthy' | 'degraded' | 'unhealthy';
+  status: "healthy" | "degraded" | "unhealthy";
   responseTime?: number;
   error?: string;
 }
 
 export interface SystemHealth {
-  overall: 'healthy' | 'degraded' | 'unhealthy';
+  overall: "healthy" | "degraded" | "unhealthy";
   checks: HealthCheckResult[];
   timestamp: Date;
 }
@@ -20,24 +20,27 @@ export interface SystemHealth {
 /**
  * Check individual endpoint health
  */
-async function checkEndpoint(endpoint: string, timeout = 5000): Promise<HealthCheckResult> {
+async function checkEndpoint(
+  endpoint: string,
+  timeout = 5000,
+): Promise<HealthCheckResult> {
   const start = Date.now();
-  
+
   try {
     await api.get(endpoint, { timeout, retries: 1 });
     const responseTime = Date.now() - start;
-    
+
     return {
       endpoint,
-      status: responseTime > 2000 ? 'degraded' : 'healthy',
+      status: responseTime > 2000 ? "degraded" : "healthy",
       responseTime,
     };
   } catch (error) {
     return {
       endpoint,
-      status: 'unhealthy',
+      status: "unhealthy",
       responseTime: Date.now() - start,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 }
@@ -47,28 +50,28 @@ async function checkEndpoint(endpoint: string, timeout = 5000): Promise<HealthCh
  */
 export async function runHealthCheck(): Promise<SystemHealth> {
   const endpoints = [
-    '/api/ping',
-    '/api/auth/verify',
-    '/api/crawlers',
-    '/api/properties',
+    "/api/ping",
+    "/api/auth/verify",
+    "/api/crawlers",
+    "/api/properties",
   ];
 
   const checks = await Promise.all(
-    endpoints.map(endpoint => checkEndpoint(endpoint))
+    endpoints.map((endpoint) => checkEndpoint(endpoint)),
   );
 
   // Determine overall health
-  const healthyCount = checks.filter(c => c.status === 'healthy').length;
-  const degradedCount = checks.filter(c => c.status === 'degraded').length;
-  const unhealthyCount = checks.filter(c => c.status === 'unhealthy').length;
+  const healthyCount = checks.filter((c) => c.status === "healthy").length;
+  const degradedCount = checks.filter((c) => c.status === "degraded").length;
+  const unhealthyCount = checks.filter((c) => c.status === "unhealthy").length;
 
-  let overall: 'healthy' | 'degraded' | 'unhealthy';
+  let overall: "healthy" | "degraded" | "unhealthy";
   if (unhealthyCount > 0) {
-    overall = 'unhealthy';
+    overall = "unhealthy";
   } else if (degradedCount > 0) {
-    overall = 'degraded';
+    overall = "degraded";
   } else {
-    overall = 'healthy';
+    overall = "healthy";
   }
 
   return {
@@ -87,13 +90,13 @@ export class HealthMonitor {
 
   start(intervalMs = 30000) {
     this.stop(); // Stop any existing monitor
-    
+
     this.interval = setInterval(async () => {
       try {
         const health = await runHealthCheck();
-        this.callbacks.forEach(callback => callback(health));
+        this.callbacks.forEach((callback) => callback(health));
       } catch (error) {
-        console.error('Health check failed:', error);
+        console.error("Health check failed:", error);
       }
     }, intervalMs);
   }
@@ -138,8 +141,8 @@ export function getBrowserInfo() {
     localStorage: {
       available: (() => {
         try {
-          localStorage.setItem('test', 'test');
-          localStorage.removeItem('test');
+          localStorage.setItem("test", "test");
+          localStorage.removeItem("test");
           return true;
         } catch {
           return false;
@@ -153,11 +156,14 @@ export function getBrowserInfo() {
  * Log system info for debugging (development only)
  */
 export function logSystemInfo() {
-  if (process.env.NODE_ENV !== 'development') return;
-  
-  console.group('🔍 AiScraper System Info');
-  console.log('Browser:', getBrowserInfo());
-  console.log('Auth Token:', localStorage.getItem('auth_token') ? 'Present' : 'Missing');
-  console.log('Environment:', process.env.NODE_ENV);
+  if (process.env.NODE_ENV !== "development") return;
+
+  console.group("🔍 AiScraper System Info");
+  console.log("Browser:", getBrowserInfo());
+  console.log(
+    "Auth Token:",
+    localStorage.getItem("auth_token") ? "Present" : "Missing",
+  );
+  console.log("Environment:", process.env.NODE_ENV);
   console.groupEnd();
 }

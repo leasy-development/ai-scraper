@@ -2,17 +2,23 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { 
-  User, 
-  Mail, 
-  Key, 
-  ArrowRight, 
-  Loader2, 
+import {
+  User,
+  Mail,
+  Key,
+  ArrowRight,
+  Loader2,
   CheckCircle,
-  Info
+  Info,
 } from "lucide-react";
 
 interface DemoLoginProps {
@@ -27,7 +33,7 @@ export function DemoLogin({ onClose }: DemoLoginProps) {
 
   const demoCredentials = {
     email: "demo@aiscraper.com",
-    password: "demo123"
+    password: "demo123",
   };
 
   const handleDemoLogin = async () => {
@@ -40,7 +46,7 @@ export function DemoLogin({ onClose }: DemoLoginProps) {
 
       // Small delay to ensure auth state propagates, then navigate to dashboard
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate("/dashboard");
       }, 100);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Demo login failed");
@@ -79,7 +85,8 @@ export function DemoLogin({ onClose }: DemoLoginProps) {
         <Alert className="border-blue-500/50 bg-blue-500/10">
           <Info className="w-4 h-4 text-blue-500" />
           <AlertDescription className="text-blue-700 dark:text-blue-300">
-            This demo account includes sample crawlers to showcase the platform's capabilities.
+            This demo account includes sample crawlers to showcase the
+            platform's capabilities.
           </AlertDescription>
         </Alert>
 
@@ -89,7 +96,10 @@ export function DemoLogin({ onClose }: DemoLoginProps) {
               <Badge variant="secondary" className="text-xs">
                 Demo Credentials
               </Badge>
-              <Badge variant="outline" className="text-xs text-green-600 border-green-200">
+              <Badge
+                variant="outline"
+                className="text-xs text-green-600 border-green-200"
+              >
                 <CheckCircle className="w-3 h-3 mr-1" />
                 Ready to Use
               </Badge>
@@ -139,7 +149,9 @@ export function DemoLogin({ onClose }: DemoLoginProps) {
           </div>
 
           <div className="space-y-2">
-            <h4 className="text-sm font-medium text-foreground">What's included:</h4>
+            <h4 className="text-sm font-medium text-foreground">
+              What's included:
+            </h4>
             <ul className="text-xs text-muted-foreground space-y-1">
               <li>• 6 sample web crawlers with different statuses</li>
               <li>• E-commerce, news, social media, and job data examples</li>

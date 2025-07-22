@@ -1,10 +1,10 @@
 // Crawler Status Enum
 export enum CrawlerStatus {
-  TODO = 'todo',
-  IN_PROGRESS = 'in_progress',
-  READY_FOR_QA = 'ready_for_qa',
-  COMPLETED = 'completed',
-  FAILED = 'failed'
+  TODO = "todo",
+  IN_PROGRESS = "in_progress",
+  READY_FOR_QA = "ready_for_qa",
+  COMPLETED = "completed",
+  FAILED = "failed",
 }
 
 // Crawler Interface
@@ -57,20 +57,25 @@ export interface CrawlersListResponse {
 
 // Status color mapping for UI
 export const STATUS_COLORS = {
-  [CrawlerStatus.TODO]: 'bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70',
-  [CrawlerStatus.IN_PROGRESS]: 'bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70',
-  [CrawlerStatus.READY_FOR_QA]: 'bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70',
-  [CrawlerStatus.COMPLETED]: 'bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70',
-  [CrawlerStatus.FAILED]: 'bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70'
+  [CrawlerStatus.TODO]:
+    "bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70",
+  [CrawlerStatus.IN_PROGRESS]:
+    "bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70",
+  [CrawlerStatus.READY_FOR_QA]:
+    "bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70",
+  [CrawlerStatus.COMPLETED]:
+    "bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70",
+  [CrawlerStatus.FAILED]:
+    "bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70",
 };
 
 // Status labels for UI
 export const STATUS_LABELS = {
-  [CrawlerStatus.TODO]: 'Todo',
-  [CrawlerStatus.IN_PROGRESS]: 'In Progress',
-  [CrawlerStatus.READY_FOR_QA]: 'Ready for QA',
-  [CrawlerStatus.COMPLETED]: 'Completed',
-  [CrawlerStatus.FAILED]: 'Failed'
+  [CrawlerStatus.TODO]: "Todo",
+  [CrawlerStatus.IN_PROGRESS]: "In Progress",
+  [CrawlerStatus.READY_FOR_QA]: "Ready for QA",
+  [CrawlerStatus.COMPLETED]: "Completed",
+  [CrawlerStatus.FAILED]: "Failed",
 };
 
 // Validation helper
@@ -88,15 +93,15 @@ export function validateCrawlerData(data: CreateCrawlerRequest): string[] {
   const errors: string[] = [];
 
   if (!data.name || data.name.trim().length < 1) {
-    errors.push('Crawler name is required');
+    errors.push("Crawler name is required");
   }
 
   if (!data.url || !isValidUrl(data.url)) {
-    errors.push('Valid URL is required');
+    errors.push("Valid URL is required");
   }
 
   if (!data.description || data.description.trim().length < 1) {
-    errors.push('Description is required');
+    errors.push("Description is required");
   }
 
   return errors;

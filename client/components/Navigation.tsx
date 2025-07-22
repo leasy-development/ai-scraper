@@ -5,15 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { UserDropdown } from "@/components/auth/UserDropdown";
 import { NotificationCenter } from "@/components/notifications/NotificationCenter";
-import {
-  Moon,
-  Sun,
-  Menu,
-  X,
-  Sparkles,
-  Github,
-  LogIn
-} from "lucide-react";
+import { Moon, Sun, Menu, X, Sparkles, Github, LogIn } from "lucide-react";
 
 export function Navigation() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -24,38 +16,40 @@ export function Navigation() {
 
   useEffect(() => {
     // Initialize dark mode based on system preference or stored value
-    const stored = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (stored === 'dark' || (!stored && systemPrefersDark)) {
+    const stored = localStorage.getItem("theme");
+    const systemPrefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+
+    if (stored === "dark" || (!stored && systemPrefersDark)) {
       setIsDarkMode(true);
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
     } else {
       setIsDarkMode(false);
-      document.documentElement.classList.add('light');
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
     }
   }, []);
 
   const toggleDarkMode = () => {
     const newMode = !isDarkMode;
     setIsDarkMode(newMode);
-    
+
     if (newMode) {
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
-      localStorage.setItem('theme', 'dark');
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+      localStorage.setItem("theme", "dark");
     } else {
-      document.documentElement.classList.add('light');
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
+      document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
   };
 
   const navItems = [
     { label: "Features", href: "#features" },
-    { label: "Documentation", href: "#docs" }
+    { label: "Documentation", href: "#docs" },
   ];
 
   return (
@@ -102,12 +96,10 @@ export function Navigation() {
               <Github className="w-5 h-5" />
             </Button>
 
-            {!isLoading && isAuthenticated && (
-              <NotificationCenter />
-            )}
+            {!isLoading && isAuthenticated && <NotificationCenter />}
 
-            {!isLoading && (
-              isAuthenticated ? (
+            {!isLoading &&
+              (isAuthenticated ? (
                 <UserDropdown />
               ) : (
                 <Button
@@ -118,15 +110,12 @@ export function Navigation() {
                   <LogIn className="w-4 h-4 mr-2" />
                   Sign In
                 </Button>
-              )
-            )}
+              ))}
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center space-x-2">
-            {!isLoading && isAuthenticated && (
-              <NotificationCenter />
-            )}
+            {!isLoading && isAuthenticated && <NotificationCenter />}
 
             <Button
               variant="ghost"
@@ -140,7 +129,7 @@ export function Navigation() {
                 <Moon className="w-5 h-5" />
               )}
             </Button>
-            
+
             <Button
               variant="ghost"
               size="icon"
@@ -169,8 +158,8 @@ export function Navigation() {
                   {item.label}
                 </a>
               ))}
-              {!isLoading && (
-                isAuthenticated ? (
+              {!isLoading &&
+                (isAuthenticated ? (
                   <div className="px-3 py-2">
                     <UserDropdown />
                   </div>
@@ -188,13 +177,16 @@ export function Navigation() {
                       Sign In
                     </Button>
                     <div className="flex justify-center pt-2">
-                      <Button variant="ghost" size="icon" className="hover-glow">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="hover-glow"
+                      >
                         <Github className="w-5 h-5" />
                       </Button>
                     </div>
                   </div>
-                )
-              )}
+                ))}
             </div>
           </div>
         )}

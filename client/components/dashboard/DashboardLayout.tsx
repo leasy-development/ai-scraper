@@ -13,7 +13,7 @@ import {
   LogOut,
   Plus,
   Bell,
-  Search
+  Search,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,19 +28,19 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const location = useLocation();
 
   const navigation = [
-    { name: 'Overview', href: '/dashboard', icon: Home },
-    { name: 'Crawlers', href: '/dashboard/crawlers', icon: Bot },
-    { name: 'Properties', href: '/dashboard/properties', icon: Building },
-    { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
-    { name: 'Notifications', href: '/dashboard/notifications', icon: Bell },
-    { name: 'Settings', href: '/dashboard/settings', icon: Settings },
+    { name: "Overview", href: "/dashboard", icon: Home },
+    { name: "Crawlers", href: "/dashboard/crawlers", icon: Bot },
+    { name: "Properties", href: "/dashboard/properties", icon: Building },
+    { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+    { name: "Notifications", href: "/dashboard/notifications", icon: Bell },
+    { name: "Settings", href: "/dashboard/settings", icon: Settings },
   ];
 
   const getInitials = (name: string) => {
     return name
-      .split(' ')
-      .map(word => word[0])
-      .join('')
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
       .toUpperCase()
       .slice(0, 2);
   };
@@ -49,16 +49,18 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     <div className="min-h-screen bg-background">
       {/* Mobile sidebar backdrop */}
       {isSidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-64 glass border-r border-border/50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
-        isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      } lg:static lg:inset-0`}>
+      <div
+        className={`fixed inset-y-0 left-0 z-50 w-64 glass border-r border-border/50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:static lg:inset-0`}
+      >
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="flex items-center justify-between h-16 px-6 border-b border-border/50">
@@ -88,8 +90,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   to={item.href}
                   className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                     isActive
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                   }`}
                   onClick={() => setIsSidebarOpen(false)}
                 >
@@ -116,7 +118,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <Avatar className="h-8 w-8">
                 <AvatarImage src={user?.avatar} alt={user?.name} />
                 <AvatarFallback className="bg-gradient-to-r from-primary to-gradient-via text-white text-sm font-medium">
-                  {user ? getInitials(user.name) : 'U'}
+                  {user ? getInitials(user.name) : "U"}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
@@ -154,7 +156,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               >
                 <Menu className="w-5 h-5" />
               </Button>
-              
+
               {/* Search */}
               <div className="hidden md:block">
                 <div className="relative">
@@ -180,16 +182,14 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={user?.avatar} alt={user?.name} />
                   <AvatarFallback className="bg-gradient-to-r from-primary to-gradient-via text-white text-sm font-medium">
-                    {user ? getInitials(user.name) : 'U'}
+                    {user ? getInitials(user.name) : "U"}
                   </AvatarFallback>
                 </Avatar>
                 <div className="hidden lg:block">
                   <p className="text-sm font-medium text-foreground">
                     {user?.name}
                   </p>
-                  <p className="text-xs text-muted-foreground">
-                    {user?.email}
-                  </p>
+                  <p className="text-xs text-muted-foreground">{user?.email}</p>
                 </div>
               </div>
             </div>
@@ -197,9 +197,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </header>
 
         {/* Page content */}
-        <main className="p-4 sm:p-6 lg:p-8">
-          {children}
-        </main>
+        <main className="p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
     </div>
   );

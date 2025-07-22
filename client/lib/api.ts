@@ -13,24 +13,24 @@ export class ApiError extends Error {
   constructor(
     message: string,
     public status?: number,
-    public response?: Response
+    public response?: Response,
   ) {
     super(message);
-    this.name = 'ApiError';
+    this.name = "ApiError";
   }
 }
 
 export class ApiTimeoutError extends Error {
-  constructor(message = 'Request timed out') {
+  constructor(message = "Request timed out") {
     super(message);
-    this.name = 'ApiTimeoutError';
+    this.name = "ApiTimeoutError";
   }
 }
 
 export class ApiNetworkError extends Error {
-  constructor(message = 'Network error occurred') {
+  constructor(message = "Network error occurred") {
     super(message);
-    this.name = 'ApiNetworkError';
+    this.name = "ApiNetworkError";
   }
 }
 
@@ -39,32 +39,33 @@ export class ApiNetworkError extends Error {
  */
 const defaultRetryCondition = (error: Error, attempt: number): boolean => {
   if (attempt >= 3) return false; // Max 3 attempts
-  
+
   if (error instanceof ApiNetworkError) return true;
   if (error instanceof ApiTimeoutError) return true;
-  if (error instanceof ApiError && error.status && error.status >= 500) return true;
-  
+  if (error instanceof ApiError && error.status && error.status >= 500)
+    return true;
+
   return false;
 };
 
 /**
  * Sleep utility for retry delays
  */
-const sleep = (ms: number): Promise<void> => 
-  new Promise(resolve => setTimeout(resolve, ms));
+const sleep = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
  * Calculate exponential backoff delay
  */
-const getRetryDelay = (attempt: number, baseDelay: number): number => 
+const getRetryDelay = (attempt: number, baseDelay: number): number =>
   baseDelay * Math.pow(2, attempt - 1) + Math.random() * 1000;
 
 /**
  * Make a reliable API request with timeout, retry logic, and proper error handling
  */
 export async function apiRequest<T = any>(
-  url: string, 
-  options: ApiRequestOptions = {}
+  url: string,
+  options: ApiRequestOptions = {},
 ): Promise<T> {
   const {
     timeout = 15000,
@@ -97,50 +98,57 @@ export async function apiRequest<T = any>(
         } catch {
           // Ignore JSON parsing errors for error messages
         }
-        
+
         const apiError = new ApiError(errorMessage, response.status, response);
-        
+
         // Check if we should retry
         if (attempt < retries && retryCondition(apiError, attempt)) {
           lastError = apiError;
           await sleep(getRetryDelay(attempt, retryDelay));
           continue;
         }
-        
+
         throw apiError;
       }
 
       // Parse response
-      const contentType = response.headers.get('content-type');
-      if (contentType && contentType.includes('application/json')) {
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
         return await response.json();
       } else {
         return response.text() as T;
       }
-      
     } catch (error) {
       clearTimeout(timeoutId);
-      
+
       let apiError: Error;
-      
-      if (error.name === 'AbortError') {
-        apiError = new ApiTimeoutError(`Request to ${url} timed out after ${timeout}ms`);
-      } else if (error instanceof TypeError && error.message.includes('fetch')) {
+
+      if (error.name === "AbortError") {
+        apiError = new ApiTimeoutError(
+          `Request to ${url} timed out after ${timeout}ms`,
+        );
+      } else if (
+        error instanceof TypeError &&
+        error.message.includes("fetch")
+      ) {
         apiError = new ApiNetworkError(`Network error when requesting ${url}`);
       } else if (error instanceof ApiError) {
         apiError = error;
       } else {
         apiError = new Error(`Unexpected error: ${error.message}`);
       }
-      
+
       // Check if we should retry
       if (attempt < retries && retryCondition(apiError, attempt)) {
         lastError = apiError;
-        console.warn(`API request failed (attempt ${attempt}/${retries}):`, apiError.message);
+        console.warn(
+          `API request failed (attempt ${attempt}/${retries}):`,
+          apiError.message,
+        );
         await sleep(getRetryDelay(attempt, retryDelay));
         continue;
       }
-      
+
       throw apiError;
     }
   }
@@ -152,40 +160,52 @@ export async function apiRequest<T = any>(
  * Convenience methods for common HTTP methods
  */
 export const api = {
-  get: <T = any>(url: string, options?: Omit<ApiRequestOptions, 'method'>) =>
-    apiRequest<T>(url, { ...options, method: 'GET' }),
-    
-  post: <T = any>(url: string, data?: any, options?: Omit<ApiRequestOptions, 'method' | 'body'>) =>
+  get: <T = any>(url: string, options?: Omit<ApiRequestOptions, "method">) =>
+    apiRequest<T>(url, { ...options, method: "GET" }),
+
+  post: <T = any>(
+    url: string,
+    data?: any,
+    options?: Omit<ApiRequestOptions, "method" | "body">,
+  ) =>
     apiRequest<T>(url, {
       ...options,
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...options?.headers,
       },
       body: data ? JSON.stringify(data) : undefined,
     }),
-    
-  put: <T = any>(url: string, data?: any, options?: Omit<ApiRequestOptions, 'method' | 'body'>) =>
+
+  put: <T = any>(
+    url: string,
+    data?: any,
+    options?: Omit<ApiRequestOptions, "method" | "body">,
+  ) =>
     apiRequest<T>(url, {
       ...options,
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...options?.headers,
       },
       body: data ? JSON.stringify(data) : undefined,
     }),
-    
-  delete: <T = any>(url: string, options?: Omit<ApiRequestOptions, 'method'>) =>
-    apiRequest<T>(url, { ...options, method: 'DELETE' }),
-    
-  patch: <T = any>(url: string, data?: any, options?: Omit<ApiRequestOptions, 'method' | 'body'>) =>
+
+  delete: <T = any>(url: string, options?: Omit<ApiRequestOptions, "method">) =>
+    apiRequest<T>(url, { ...options, method: "DELETE" }),
+
+  patch: <T = any>(
+    url: string,
+    data?: any,
+    options?: Omit<ApiRequestOptions, "method" | "body">,
+  ) =>
     apiRequest<T>(url, {
       ...options,
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...options?.headers,
       },
       body: data ? JSON.stringify(data) : undefined,
@@ -196,16 +216,16 @@ export const api = {
  * Get auth headers for authenticated requests
  */
 export function getAuthHeaders(): Record<string, string> {
-  const token = localStorage.getItem('auth_token');
-  return token ? { 'Authorization': `Bearer ${token}` } : {};
+  const token = localStorage.getItem("auth_token");
+  return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
 /**
  * Make an authenticated API request
  */
 export function authRequest<T = any>(
-  url: string, 
-  options: ApiRequestOptions = {}
+  url: string,
+  options: ApiRequestOptions = {},
 ): Promise<T> {
   return apiRequest<T>(url, {
     ...options,

@@ -12,16 +12,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ArrowLeft, Save, Loader2, ExternalLink } from "lucide-react";
-import { 
-  CrawlerStatus, 
-  CrawlerResponse, 
-  CreateCrawlerRequest, 
+import {
+  CrawlerStatus,
+  CrawlerResponse,
+  CreateCrawlerRequest,
   UpdateCrawlerRequest,
   STATUS_LABELS,
-  validateCrawlerData 
+  validateCrawlerData,
 } from "@shared/crawler";
 
 export default function CrawlerForm() {
@@ -30,16 +36,16 @@ export default function CrawlerForm() {
   const isEditing = Boolean(id);
 
   const [formData, setFormData] = useState<CreateCrawlerRequest>({
-    name: '',
-    url: '',
-    description: '',
+    name: "",
+    url: "",
+    description: "",
     status: CrawlerStatus.TODO,
   });
 
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(isEditing);
   const [errors, setErrors] = useState<string[]>([]);
-  const [generalError, setGeneralError] = useState('');
+  const [generalError, setGeneralError] = useState("");
 
   useEffect(() => {
     if (isEditing && id) {
@@ -50,10 +56,10 @@ export default function CrawlerForm() {
   const fetchCrawler = async (crawlerId: string) => {
     try {
       setIsFetching(true);
-      const token = localStorage.getItem('auth_token');
+      const token = localStorage.getItem("auth_token");
       const response = await fetch(`/api/crawlers/${crawlerId}`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -66,13 +72,13 @@ export default function CrawlerForm() {
           status: crawler.status,
         });
       } else if (response.status === 404) {
-        setGeneralError('Crawler not found');
+        setGeneralError("Crawler not found");
       } else {
-        setGeneralError('Failed to load crawler');
+        setGeneralError("Failed to load crawler");
       }
     } catch (error) {
-      console.error('Failed to fetch crawler:', error);
-      setGeneralError('Failed to load crawler');
+      console.error("Failed to fetch crawler:", error);
+      setGeneralError("Failed to load crawler");
     } finally {
       setIsFetching(false);
     }
@@ -81,7 +87,7 @@ export default function CrawlerForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors([]);
-    setGeneralError('');
+    setGeneralError("");
 
     // Validate form data
     const validationErrors = validateCrawlerData(formData);
@@ -93,9 +99,9 @@ export default function CrawlerForm() {
     setIsLoading(true);
 
     try {
-      const token = localStorage.getItem('auth_token');
-      const url = isEditing ? `/api/crawlers/${id}` : '/api/crawlers';
-      const method = isEditing ? 'PUT' : 'POST';
+      const token = localStorage.getItem("auth_token");
+      const url = isEditing ? `/api/crawlers/${id}` : "/api/crawlers";
+      const method = isEditing ? "PUT" : "POST";
 
       const requestData: CreateCrawlerRequest | UpdateCrawlerRequest = isEditing
         ? formData // For updates, include all fields
@@ -104,40 +110,46 @@ export default function CrawlerForm() {
       const response = await fetch(url, {
         method,
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(requestData),
       });
 
       if (response.ok) {
-        navigate('/dashboard/crawlers');
+        navigate("/dashboard/crawlers");
       } else {
         const errorData = await response.json();
         if (errorData.errors) {
           setErrors(errorData.errors);
         } else {
-          setGeneralError(errorData.message || `Failed to ${isEditing ? 'update' : 'create'} crawler`);
+          setGeneralError(
+            errorData.message ||
+              `Failed to ${isEditing ? "update" : "create"} crawler`,
+          );
         }
       }
     } catch (error) {
-      console.error(`Failed to ${isEditing ? 'update' : 'create'} crawler:`, error);
-      setGeneralError(`Failed to ${isEditing ? 'update' : 'create'} crawler`);
+      console.error(
+        `Failed to ${isEditing ? "update" : "create"} crawler:`,
+        error,
+      );
+      setGeneralError(`Failed to ${isEditing ? "update" : "create"} crawler`);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleInputChange = (field: keyof CreateCrawlerRequest) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData(prev => ({ ...prev, [field]: e.target.value }));
-    if (errors.length > 0) setErrors([]);
-    if (generalError) setGeneralError('');
-  };
+  const handleInputChange =
+    (field: keyof CreateCrawlerRequest) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+      if (errors.length > 0) setErrors([]);
+      if (generalError) setGeneralError("");
+    };
 
   const handleStatusChange = (status: CrawlerStatus) => {
-    setFormData(prev => ({ ...prev, status }));
+    setFormData((prev) => ({ ...prev, status }));
   };
 
   if (isFetching) {
@@ -155,18 +167,21 @@ export default function CrawlerForm() {
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center space-x-4">
-          <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard/crawlers')}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate("/dashboard/crawlers")}
+          >
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div>
             <h1 className="text-3xl font-bold text-foreground">
-              {isEditing ? 'Edit Crawler' : 'Create New Crawler'}
+              {isEditing ? "Edit Crawler" : "Create New Crawler"}
             </h1>
             <p className="text-muted-foreground">
-              {isEditing 
-                ? 'Update your web crawler configuration' 
-                : 'Set up a new web crawler to extract data from websites'
-              }
+              {isEditing
+                ? "Update your web crawler configuration"
+                : "Set up a new web crawler to extract data from websites"}
             </p>
           </div>
         </div>
@@ -206,7 +221,7 @@ export default function CrawlerForm() {
                   type="text"
                   placeholder="e.g., Product Price Monitor, News Aggregator"
                   value={formData.name}
-                  onChange={handleInputChange('name')}
+                  onChange={handleInputChange("name")}
                   className="bg-background/50 border-border/50 focus:bg-background"
                   required
                 />
@@ -226,7 +241,7 @@ export default function CrawlerForm() {
                     type="url"
                     placeholder="https://example.com"
                     value={formData.url}
-                    onChange={handleInputChange('url')}
+                    onChange={handleInputChange("url")}
                     className="flex-1 bg-background/50 border-border/50 focus:bg-background"
                     required
                   />
@@ -235,7 +250,7 @@ export default function CrawlerForm() {
                       type="button"
                       variant="outline"
                       size="icon"
-                      onClick={() => window.open(formData.url, '_blank')}
+                      onClick={() => window.open(formData.url, "_blank")}
                     >
                       <ExternalLink className="w-4 h-4" />
                     </Button>
@@ -255,7 +270,7 @@ export default function CrawlerForm() {
                   id="description"
                   placeholder="Describe what this crawler does, what data it extracts, and how often it should run..."
                   value={formData.description}
-                  onChange={handleInputChange('description')}
+                  onChange={handleInputChange("description")}
                   className="bg-background/50 border-border/50 focus:bg-background min-h-[100px]"
                   required
                 />
@@ -266,10 +281,11 @@ export default function CrawlerForm() {
 
               {/* Status */}
               <div className="space-y-2">
-                <Label className="text-sm font-medium">
-                  Status
-                </Label>
-                <Select value={formData.status} onValueChange={handleStatusChange}>
+                <Label className="text-sm font-medium">Status</Label>
+                <Select
+                  value={formData.status}
+                  onValueChange={handleStatusChange}
+                >
                   <SelectTrigger className="bg-background/50 border-border/50">
                     <SelectValue />
                   </SelectTrigger>
@@ -296,21 +312,21 @@ export default function CrawlerForm() {
                   {isLoading ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      {isEditing ? 'Updating...' : 'Creating...'}
+                      {isEditing ? "Updating..." : "Creating..."}
                     </>
                   ) : (
                     <>
                       <Save className="w-4 h-4 mr-2" />
-                      {isEditing ? 'Update Crawler' : 'Create Crawler'}
+                      {isEditing ? "Update Crawler" : "Create Crawler"}
                     </>
                   )}
                 </Button>
-                
+
                 <Button
                   type="button"
                   variant="ghost"
                   className="btn-glass flex-1"
-                  onClick={() => navigate('/dashboard/crawlers')}
+                  onClick={() => navigate("/dashboard/crawlers")}
                   disabled={isLoading}
                 >
                   Cancel
@@ -326,10 +342,22 @@ export default function CrawlerForm() {
             <CardTitle className="text-lg">Quick Tips</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <p>• Choose a descriptive name that clearly identifies the crawler's purpose</p>
-            <p>• Ensure the target URL is accessible and returns the data you want to extract</p>
-            <p>• Use the description to document extraction rules and scheduling requirements</p>
-            <p>• Start with "Todo" status and update as you progress through development</p>
+            <p>
+              • Choose a descriptive name that clearly identifies the crawler's
+              purpose
+            </p>
+            <p>
+              • Ensure the target URL is accessible and returns the data you
+              want to extract
+            </p>
+            <p>
+              • Use the description to document extraction rules and scheduling
+              requirements
+            </p>
+            <p>
+              • Start with "Todo" status and update as you progress through
+              development
+            </p>
           </CardContent>
         </Card>
       </div>

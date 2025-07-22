@@ -1,7 +1,7 @@
-import React from 'react';
-import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import React from "react";
+import { AlertTriangle, RefreshCw, Home } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -14,7 +14,10 @@ interface ErrorBoundaryProps {
   fallback?: React.ComponentType<{ error: Error; retry: () => void }>;
 }
 
-export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = {
@@ -32,14 +35,14 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    console.error("ErrorBoundary caught an error:", error, errorInfo);
     this.setState({
       error,
       errorInfo,
     });
 
     // Log to error reporting service in production
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === "production") {
       // Example: Sentry.captureException(error, { extra: errorInfo });
     }
   }
@@ -55,12 +58,17 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   render() {
     if (this.state.hasError) {
       const { fallback: Fallback } = this.props;
-      
+
       if (Fallback && this.state.error) {
         return <Fallback error={this.state.error} retry={this.handleRetry} />;
       }
 
-      return <DefaultErrorFallback error={this.state.error} retry={this.handleRetry} />;
+      return (
+        <DefaultErrorFallback
+          error={this.state.error}
+          retry={this.handleRetry}
+        />
+      );
     }
 
     return this.props.children;
@@ -88,7 +96,7 @@ function DefaultErrorFallback({ error, retry }: DefaultErrorFallbackProps) {
           </p>
         </div>
 
-        {error && process.env.NODE_ENV === 'development' && (
+        {error && process.env.NODE_ENV === "development" && (
           <Alert className="border-destructive/50 bg-destructive/10">
             <AlertTriangle className="w-4 h-4 text-destructive" />
             <AlertDescription className="text-destructive text-sm">
@@ -98,16 +106,13 @@ function DefaultErrorFallback({ error, retry }: DefaultErrorFallbackProps) {
         )}
 
         <div className="flex flex-col sm:flex-row gap-3">
-          <Button 
-            onClick={retry} 
-            className="flex-1 btn-gradient"
-          >
+          <Button onClick={retry} className="flex-1 btn-gradient">
             <RefreshCw className="w-4 h-4 mr-2" />
             Try Again
           </Button>
-          <Button 
-            variant="outline" 
-            onClick={() => window.location.href = '/'} 
+          <Button
+            variant="outline"
+            onClick={() => (window.location.href = "/")}
             className="flex-1"
           >
             <Home className="w-4 h-4 mr-2" />
@@ -122,7 +127,7 @@ function DefaultErrorFallback({ error, retry }: DefaultErrorFallbackProps) {
 // Hook for functional components to use error boundaries
 export function useErrorHandler() {
   return (error: Error, errorInfo?: React.ErrorInfo) => {
-    console.error('Unhandled error:', error, errorInfo);
+    console.error("Unhandled error:", error, errorInfo);
     // In a real app, you'd report this to an error tracking service
   };
 }

@@ -4,7 +4,13 @@ import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -20,39 +26,42 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { 
-  User, 
-  Mail, 
-  Lock, 
-  Shield, 
-  Bell, 
-  Palette, 
-  Save, 
-  Loader2, 
+import {
+  User,
+  Mail,
+  Lock,
+  Shield,
+  Bell,
+  Palette,
+  Save,
+  Loader2,
   CheckCircle,
   AlertCircle,
   Eye,
   EyeOff,
-  Trash2
+  Trash2,
 } from "lucide-react";
 
 export default function Settings() {
   const { user, updateUser, logout } = useAuth();
   const [activeTab, setActiveTab] = useState("account");
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   // Account form state
   const [accountForm, setAccountForm] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
+    name: user?.name || "",
+    email: user?.email || "",
   });
 
   // Password form state
   const [passwordForm, setPasswordForm] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
   const [showPasswords, setShowPasswords] = useState({
@@ -66,8 +75,8 @@ export default function Settings() {
     emailNotifications: true,
     crawlerAlerts: true,
     weeklyReports: false,
-    theme: 'dark',
-    language: 'en',
+    theme: "dark",
+    language: "en",
   });
 
   useEffect(() => {
@@ -79,7 +88,7 @@ export default function Settings() {
     }
   }, [user]);
 
-  const showMessage = (type: 'success' | 'error', text: string) => {
+  const showMessage = (type: "success" | "error", text: string) => {
     setMessage({ type, text });
     setTimeout(() => setMessage(null), 5000);
   };
@@ -89,12 +98,12 @@ export default function Settings() {
     setIsLoading(true);
 
     try {
-      const token = localStorage.getItem('auth_token');
-      const response = await fetch('/api/auth/profile', {
-        method: 'PUT',
+      const token = localStorage.getItem("auth_token");
+      const response = await fetch("/api/auth/profile", {
+        method: "PUT",
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(accountForm),
       });
@@ -102,13 +111,13 @@ export default function Settings() {
       if (response.ok) {
         const updatedUser = await response.json();
         updateUser(updatedUser);
-        showMessage('success', 'Account information updated successfully');
+        showMessage("success", "Account information updated successfully");
       } else {
         const error = await response.json();
-        showMessage('error', error.message || 'Failed to update account');
+        showMessage("error", error.message || "Failed to update account");
       }
     } catch (error) {
-      showMessage('error', 'Failed to update account information');
+      showMessage("error", "Failed to update account information");
     } finally {
       setIsLoading(false);
     }
@@ -116,26 +125,26 @@ export default function Settings() {
 
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      showMessage('error', 'New passwords do not match');
+      showMessage("error", "New passwords do not match");
       return;
     }
 
     if (passwordForm.newPassword.length < 6) {
-      showMessage('error', 'Password must be at least 6 characters long');
+      showMessage("error", "Password must be at least 6 characters long");
       return;
     }
 
     setIsLoading(true);
 
     try {
-      const token = localStorage.getItem('auth_token');
-      const response = await fetch('/api/auth/change-password', {
-        method: 'PUT',
+      const token = localStorage.getItem("auth_token");
+      const response = await fetch("/api/auth/change-password", {
+        method: "PUT",
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           currentPassword: passwordForm.currentPassword,
@@ -145,17 +154,17 @@ export default function Settings() {
 
       if (response.ok) {
         setPasswordForm({
-          currentPassword: '',
-          newPassword: '',
-          confirmPassword: '',
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
         });
-        showMessage('success', 'Password changed successfully');
+        showMessage("success", "Password changed successfully");
       } else {
         const error = await response.json();
-        showMessage('error', error.message || 'Failed to change password');
+        showMessage("error", error.message || "Failed to change password");
       }
     } catch (error) {
-      showMessage('error', 'Failed to change password');
+      showMessage("error", "Failed to change password");
     } finally {
       setIsLoading(false);
     }
@@ -163,11 +172,11 @@ export default function Settings() {
 
   const handleDeleteAccount = async () => {
     try {
-      const token = localStorage.getItem('auth_token');
-      const response = await fetch('/api/auth/delete-account', {
-        method: 'DELETE',
+      const token = localStorage.getItem("auth_token");
+      const response = await fetch("/api/auth/delete-account", {
+        method: "DELETE",
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -175,17 +184,17 @@ export default function Settings() {
         logout();
       } else {
         const error = await response.json();
-        showMessage('error', error.message || 'Failed to delete account');
+        showMessage("error", error.message || "Failed to delete account");
       }
     } catch (error) {
-      showMessage('error', 'Failed to delete account');
+      showMessage("error", "Failed to delete account");
     }
   };
 
   const togglePasswordVisibility = (field: keyof typeof showPasswords) => {
-    setShowPasswords(prev => ({
+    setShowPasswords((prev) => ({
       ...prev,
-      [field]: !prev[field]
+      [field]: !prev[field],
     }));
   };
 
@@ -202,34 +211,62 @@ export default function Settings() {
 
         {/* Message Display */}
         {message && (
-          <Alert className={message.type === 'success' ? 'border-green-500/50 bg-green-500/10' : 'border-destructive/50 bg-destructive/10'}>
-            {message.type === 'success' ? (
+          <Alert
+            className={
+              message.type === "success"
+                ? "border-green-500/50 bg-green-500/10"
+                : "border-destructive/50 bg-destructive/10"
+            }
+          >
+            {message.type === "success" ? (
               <CheckCircle className="w-4 h-4 text-green-500" />
             ) : (
               <AlertCircle className="w-4 h-4 text-destructive" />
             )}
-            <AlertDescription className={message.type === 'success' ? 'text-green-700 dark:text-green-300' : 'text-destructive'}>
+            <AlertDescription
+              className={
+                message.type === "success"
+                  ? "text-green-700 dark:text-green-300"
+                  : "text-destructive"
+              }
+            >
               {message.text}
             </AlertDescription>
           </Alert>
         )}
 
         {/* Settings Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="space-y-6"
+        >
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="account" className="flex items-center space-x-2">
+            <TabsTrigger
+              value="account"
+              className="flex items-center space-x-2"
+            >
               <User className="w-4 h-4" />
               <span>Account</span>
             </TabsTrigger>
-            <TabsTrigger value="security" className="flex items-center space-x-2">
+            <TabsTrigger
+              value="security"
+              className="flex items-center space-x-2"
+            >
               <Shield className="w-4 h-4" />
               <span>Security</span>
             </TabsTrigger>
-            <TabsTrigger value="preferences" className="flex items-center space-x-2">
+            <TabsTrigger
+              value="preferences"
+              className="flex items-center space-x-2"
+            >
               <Bell className="w-4 h-4" />
               <span>Preferences</span>
             </TabsTrigger>
-            <TabsTrigger value="appearance" className="flex items-center space-x-2">
+            <TabsTrigger
+              value="appearance"
+              className="flex items-center space-x-2"
+            >
               <Palette className="w-4 h-4" />
               <span>Appearance</span>
             </TabsTrigger>
@@ -256,7 +293,12 @@ export default function Settings() {
                         id="name"
                         type="text"
                         value={accountForm.name}
-                        onChange={(e) => setAccountForm(prev => ({ ...prev, name: e.target.value }))}
+                        onChange={(e) =>
+                          setAccountForm((prev) => ({
+                            ...prev,
+                            name: e.target.value,
+                          }))
+                        }
                         className="bg-background/50 border-border/50"
                         required
                       />
@@ -267,18 +309,30 @@ export default function Settings() {
                         id="email"
                         type="email"
                         value={accountForm.email}
-                        onChange={(e) => setAccountForm(prev => ({ ...prev, email: e.target.value }))}
+                        onChange={(e) =>
+                          setAccountForm((prev) => ({
+                            ...prev,
+                            email: e.target.value,
+                          }))
+                        }
                         className="bg-background/50 border-border/50"
                         required
                       />
                     </div>
                   </div>
-                  
+
                   <div className="flex justify-between items-center pt-4">
                     <div className="text-sm text-muted-foreground">
-                      Account created: {user ? new Date(user.id).toLocaleDateString() : 'Unknown'}
+                      Account created:{" "}
+                      {user
+                        ? new Date(user.id).toLocaleDateString()
+                        : "Unknown"}
                     </div>
-                    <Button type="submit" className="btn-gradient" disabled={isLoading}>
+                    <Button
+                      type="submit"
+                      className="btn-gradient"
+                      disabled={isLoading}
+                    >
                       {isLoading ? (
                         <>
                           <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -318,7 +372,12 @@ export default function Settings() {
                         id="currentPassword"
                         type={showPasswords.current ? "text" : "password"}
                         value={passwordForm.currentPassword}
-                        onChange={(e) => setPasswordForm(prev => ({ ...prev, currentPassword: e.target.value }))}
+                        onChange={(e) =>
+                          setPasswordForm((prev) => ({
+                            ...prev,
+                            currentPassword: e.target.value,
+                          }))
+                        }
                         className="bg-background/50 border-border/50 pr-10"
                         required
                       />
@@ -327,7 +386,7 @@ export default function Settings() {
                         variant="ghost"
                         size="sm"
                         className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
-                        onClick={() => togglePasswordVisibility('current')}
+                        onClick={() => togglePasswordVisibility("current")}
                       >
                         {showPasswords.current ? (
                           <EyeOff className="w-4 h-4" />
@@ -345,7 +404,12 @@ export default function Settings() {
                         id="newPassword"
                         type={showPasswords.new ? "text" : "password"}
                         value={passwordForm.newPassword}
-                        onChange={(e) => setPasswordForm(prev => ({ ...prev, newPassword: e.target.value }))}
+                        onChange={(e) =>
+                          setPasswordForm((prev) => ({
+                            ...prev,
+                            newPassword: e.target.value,
+                          }))
+                        }
                         className="bg-background/50 border-border/50 pr-10"
                         required
                       />
@@ -354,7 +418,7 @@ export default function Settings() {
                         variant="ghost"
                         size="sm"
                         className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
-                        onClick={() => togglePasswordVisibility('new')}
+                        onClick={() => togglePasswordVisibility("new")}
                       >
                         {showPasswords.new ? (
                           <EyeOff className="w-4 h-4" />
@@ -366,13 +430,20 @@ export default function Settings() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="confirmPassword">Confirm New Password</Label>
+                    <Label htmlFor="confirmPassword">
+                      Confirm New Password
+                    </Label>
                     <div className="relative">
                       <Input
                         id="confirmPassword"
                         type={showPasswords.confirm ? "text" : "password"}
                         value={passwordForm.confirmPassword}
-                        onChange={(e) => setPasswordForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                        onChange={(e) =>
+                          setPasswordForm((prev) => ({
+                            ...prev,
+                            confirmPassword: e.target.value,
+                          }))
+                        }
                         className="bg-background/50 border-border/50 pr-10"
                         required
                       />
@@ -381,7 +452,7 @@ export default function Settings() {
                         variant="ghost"
                         size="sm"
                         className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
-                        onClick={() => togglePasswordVisibility('confirm')}
+                        onClick={() => togglePasswordVisibility("confirm")}
                       >
                         {showPasswords.confirm ? (
                           <EyeOff className="w-4 h-4" />
@@ -392,7 +463,11 @@ export default function Settings() {
                     </div>
                   </div>
 
-                  <Button type="submit" className="btn-gradient" disabled={isLoading}>
+                  <Button
+                    type="submit"
+                    className="btn-gradient"
+                    disabled={isLoading}
+                  >
                     {isLoading ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -423,7 +498,9 @@ export default function Settings() {
               <CardContent>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="font-medium text-foreground">Delete Account</h4>
+                    <h4 className="font-medium text-foreground">
+                      Delete Account
+                    </h4>
                     <p className="text-sm text-muted-foreground">
                       Permanently delete your account and all associated data
                     </p>
@@ -439,13 +516,14 @@ export default function Settings() {
                       <AlertDialogHeader>
                         <AlertDialogTitle>Delete Account</AlertDialogTitle>
                         <AlertDialogDescription>
-                          This action cannot be undone. This will permanently delete your account
-                          and remove all your data from our servers.
+                          This action cannot be undone. This will permanently
+                          delete your account and remove all your data from our
+                          servers.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction 
+                        <AlertDialogAction
                           onClick={handleDeleteAccount}
                           className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                         >
@@ -474,34 +552,58 @@ export default function Settings() {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label className="text-base font-medium">Email Notifications</Label>
-                    <p className="text-sm text-muted-foreground">Receive email updates about your crawlers</p>
+                    <Label className="text-base font-medium">
+                      Email Notifications
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Receive email updates about your crawlers
+                    </p>
                   </div>
-                  <Badge variant={preferences.emailNotifications ? "default" : "secondary"}>
+                  <Badge
+                    variant={
+                      preferences.emailNotifications ? "default" : "secondary"
+                    }
+                  >
                     {preferences.emailNotifications ? "Enabled" : "Disabled"}
                   </Badge>
                 </div>
-                
+
                 <Separator />
-                
+
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label className="text-base font-medium">Crawler Alerts</Label>
-                    <p className="text-sm text-muted-foreground">Get notified when crawlers fail or complete</p>
+                    <Label className="text-base font-medium">
+                      Crawler Alerts
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Get notified when crawlers fail or complete
+                    </p>
                   </div>
-                  <Badge variant={preferences.crawlerAlerts ? "default" : "secondary"}>
+                  <Badge
+                    variant={
+                      preferences.crawlerAlerts ? "default" : "secondary"
+                    }
+                  >
                     {preferences.crawlerAlerts ? "Enabled" : "Disabled"}
                   </Badge>
                 </div>
-                
+
                 <Separator />
-                
+
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label className="text-base font-medium">Weekly Reports</Label>
-                    <p className="text-sm text-muted-foreground">Receive weekly summary reports</p>
+                    <Label className="text-base font-medium">
+                      Weekly Reports
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Receive weekly summary reports
+                    </p>
                   </div>
-                  <Badge variant={preferences.weeklyReports ? "default" : "secondary"}>
+                  <Badge
+                    variant={
+                      preferences.weeklyReports ? "default" : "secondary"
+                    }
+                  >
                     {preferences.weeklyReports ? "Enabled" : "Disabled"}
                   </Badge>
                 </div>
@@ -525,17 +627,25 @@ export default function Settings() {
                 <div className="space-y-2">
                   <Label>Theme</Label>
                   <div className="flex space-x-2">
-                    <Badge variant={preferences.theme === 'dark' ? "default" : "secondary"}>
+                    <Badge
+                      variant={
+                        preferences.theme === "dark" ? "default" : "secondary"
+                      }
+                    >
                       Dark Mode
                     </Badge>
-                    <Badge variant={preferences.theme === 'light' ? "default" : "secondary"}>
+                    <Badge
+                      variant={
+                        preferences.theme === "light" ? "default" : "secondary"
+                      }
+                    >
                       Light Mode
                     </Badge>
                   </div>
                 </div>
-                
+
                 <Separator />
-                
+
                 <div className="space-y-2">
                   <Label>Language</Label>
                   <Badge variant="default">English (US)</Badge>

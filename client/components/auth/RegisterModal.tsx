@@ -1,18 +1,27 @@
-import { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Mail, Lock, User, Eye, EyeOff, Loader2, Sparkles, CheckCircle } from 'lucide-react';
+} from "@/components/ui/dialog";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Mail,
+  Lock,
+  User,
+  Eye,
+  EyeOff,
+  Loader2,
+  Sparkles,
+  CheckCircle,
+} from "lucide-react";
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -20,42 +29,54 @@ interface RegisterModalProps {
   onSwitchToLogin: () => void;
 }
 
-export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModalProps) {
+export function RegisterModal({
+  isOpen,
+  onClose,
+  onSwitchToLogin,
+}: RegisterModalProps) {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  
+  const [error, setError] = useState("");
+
   const { register } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const passwordRequirements = [
-    { label: 'At least 8 characters', test: (pwd: string) => pwd.length >= 8 },
-    { label: 'Contains uppercase letter', test: (pwd: string) => /[A-Z]/.test(pwd) },
-    { label: 'Contains lowercase letter', test: (pwd: string) => /[a-z]/.test(pwd) },
-    { label: 'Contains number', test: (pwd: string) => /\d/.test(pwd) },
+    { label: "At least 8 characters", test: (pwd: string) => pwd.length >= 8 },
+    {
+      label: "Contains uppercase letter",
+      test: (pwd: string) => /[A-Z]/.test(pwd),
+    },
+    {
+      label: "Contains lowercase letter",
+      test: (pwd: string) => /[a-z]/.test(pwd),
+    },
+    { label: "Contains number", test: (pwd: string) => /\d/.test(pwd) },
   ];
 
-  const isPasswordValid = passwordRequirements.every(req => req.test(formData.password));
-  const isFormValid = 
-    formData.name.trim() && 
-    formData.email.trim() && 
-    isPasswordValid && 
+  const isPasswordValid = passwordRequirements.every((req) =>
+    req.test(formData.password),
+  );
+  const isFormValid =
+    formData.name.trim() &&
+    formData.email.trim() &&
+    isPasswordValid &&
     formData.password === formData.confirmPassword;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (!isFormValid) {
-      setError('Please fill in all fields correctly');
+      setError("Please fill in all fields correctly");
       return;
     }
 
@@ -64,24 +85,24 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
     try {
       await register(formData.name, formData.email, formData.password);
       onClose();
-      setFormData({ name: '', email: '', password: '', confirmPassword: '' });
+      setFormData({ name: "", email: "", password: "", confirmPassword: "" });
 
       // Redirect to dashboard after successful registration
-      const from = (location.state as any)?.from?.pathname || '/dashboard';
+      const from = (location.state as any)?.from?.pathname || "/dashboard";
       navigate(from, { replace: true });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Registration failed');
+      setError(err instanceof Error ? err.message : "Registration failed");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleInputChange = (field: keyof typeof formData) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFormData(prev => ({ ...prev, [field]: e.target.value }));
-    if (error) setError('');
-  };
+  const handleInputChange =
+    (field: keyof typeof formData) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+      if (error) setError("");
+    };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -119,7 +140,7 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
                   type="text"
                   placeholder="Enter your full name"
                   value={formData.name}
-                  onChange={handleInputChange('name')}
+                  onChange={handleInputChange("name")}
                   className="pl-10 bg-background/50 border-border/50 focus:bg-background"
                   required
                 />
@@ -137,7 +158,7 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
                   type="email"
                   placeholder="Enter your email"
                   value={formData.email}
-                  onChange={handleInputChange('email')}
+                  onChange={handleInputChange("email")}
                   className="pl-10 bg-background/50 border-border/50 focus:bg-background"
                   required
                 />
@@ -152,10 +173,10 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   id="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   placeholder="Create a password"
                   value={formData.password}
-                  onChange={handleInputChange('password')}
+                  onChange={handleInputChange("password")}
                   className="pl-10 pr-10 bg-background/50 border-border/50 focus:bg-background"
                   required
                 />
@@ -173,23 +194,26 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
                   )}
                 </Button>
               </div>
-              
+
               {formData.password && (
                 <div className="space-y-2 mt-2">
                   {passwordRequirements.map((req, index) => (
-                    <div key={index} className="flex items-center space-x-2 text-xs">
+                    <div
+                      key={index}
+                      className="flex items-center space-x-2 text-xs"
+                    >
                       <CheckCircle
                         className={`w-3 h-3 ${
                           req.test(formData.password)
-                            ? 'text-green-500'
-                            : 'text-muted-foreground'
+                            ? "text-green-500"
+                            : "text-muted-foreground"
                         }`}
                       />
                       <span
                         className={
                           req.test(formData.password)
-                            ? 'text-green-500'
-                            : 'text-muted-foreground'
+                            ? "text-green-500"
+                            : "text-muted-foreground"
                         }
                       >
                         {req.label}
@@ -208,10 +232,10 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   id="confirmPassword"
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   placeholder="Confirm your password"
                   value={formData.confirmPassword}
-                  onChange={handleInputChange('confirmPassword')}
+                  onChange={handleInputChange("confirmPassword")}
                   className="pl-10 pr-10 bg-background/50 border-border/50 focus:bg-background"
                   required
                 />
@@ -229,18 +253,21 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
                   )}
                 </Button>
               </div>
-              {formData.confirmPassword && formData.password !== formData.confirmPassword && (
-                <p className="text-xs text-destructive">Passwords do not match</p>
-              )}
+              {formData.confirmPassword &&
+                formData.password !== formData.confirmPassword && (
+                  <p className="text-xs text-destructive">
+                    Passwords do not match
+                  </p>
+                )}
             </div>
           </div>
 
           <div className="text-xs text-muted-foreground">
-            By creating an account, you agree to our{' '}
+            By creating an account, you agree to our{" "}
             <Button variant="link" className="p-0 h-auto text-primary text-xs">
               Terms of Service
-            </Button>{' '}
-            and{' '}
+            </Button>{" "}
+            and{" "}
             <Button variant="link" className="p-0 h-auto text-primary text-xs">
               Privacy Policy
             </Button>
@@ -257,12 +284,12 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
                 Creating account...
               </>
             ) : (
-              'Create Account'
+              "Create Account"
             )}
           </Button>
 
           <div className="text-center text-sm text-muted-foreground">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Button
               variant="link"
               className="p-0 h-auto text-primary font-medium"

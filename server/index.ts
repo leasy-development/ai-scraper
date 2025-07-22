@@ -1,10 +1,34 @@
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
-import { handleRegister, handleLogin, handleVerify, handleProfile } from "./routes/auth";
-import { getCrawlers, getCrawler, createCrawler, updateCrawler, deleteCrawler, getCrawlerStats } from "./routes/crawlers";
-import { updateProfile, changePassword, deleteAccount, getAccountStats } from "./routes/account";
-import { getProperties, getProperty, createProperty, updateProperty, deleteProperty, getPropertyStats } from "./routes/properties";
+import {
+  handleRegister,
+  handleLogin,
+  handleVerify,
+  handleProfile,
+} from "./routes/auth";
+import {
+  getCrawlers,
+  getCrawler,
+  createCrawler,
+  updateCrawler,
+  deleteCrawler,
+  getCrawlerStats,
+} from "./routes/crawlers";
+import {
+  updateProfile,
+  changePassword,
+  deleteAccount,
+  getAccountStats,
+} from "./routes/account";
+import {
+  getProperties,
+  getProperty,
+  createProperty,
+  updateProperty,
+  deleteProperty,
+  getPropertyStats,
+} from "./routes/properties";
 
 export function createServer() {
   const app = express();
@@ -13,27 +37,32 @@ export function createServer() {
   app.use(cors());
 
   // Request logging in development
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === "development") {
     app.use((req, res, next) => {
       const start = Date.now();
-      res.on('finish', () => {
+      res.on("finish", () => {
         const duration = Date.now() - start;
-        console.log(`${req.method} ${req.path} - ${res.statusCode} (${duration}ms)`);
+        console.log(
+          `${req.method} ${req.path} - ${res.statusCode} (${duration}ms)`,
+        );
       });
       next();
     });
   }
 
   // Body parsing middleware with size limits
-  app.use(express.json({ limit: '10mb' }));
-  app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+  app.use(express.json({ limit: "10mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
   // Global error handler
   app.use((err: any, req: any, res: any, next: any) => {
-    console.error('Unhandled error:', err);
+    console.error("Unhandled error:", err);
     res.status(500).json({
-      error: 'Internal server error',
-      message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
+      error: "Internal server error",
+      message:
+        process.env.NODE_ENV === "development"
+          ? err.message
+          : "Something went wrong",
     });
   });
 
@@ -74,7 +103,7 @@ export function createServer() {
   app.use("/api/*", (_req, res) => {
     res.status(404).json({
       error: "API endpoint not found",
-      message: "The requested API endpoint does not exist"
+      message: "The requested API endpoint does not exist",
     });
   });
 
