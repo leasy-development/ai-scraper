@@ -57,9 +57,7 @@ export function Navigation() {
 
   const navItems = [
     { label: "Features", href: "#features" },
-    { label: "About", href: "#about" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Contact", href: "#contact" }
+    { label: "Documentation", href: "#docs" }
   ];
 
   return (
