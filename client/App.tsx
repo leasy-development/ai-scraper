@@ -41,7 +41,9 @@ const App = () => (
                 <ProtectedRoute>
                   <Routes>
                     <Route path="/" element={<Dashboard />} />
-                    {/* Add more dashboard routes here */}
+                    <Route path="/crawlers" element={<Crawlers />} />
+                    <Route path="/crawlers/new" element={<CrawlerForm />} />
+                    <Route path="/crawlers/:id/edit" element={<CrawlerForm />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </ProtectedRoute>
