@@ -10,7 +10,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { Navigation } from "./components/Navigation";
 import { Footer } from "./components/Footer";
-import Index from "./pages/Index";
+import Index from "./pages/IndexTest";
 import Dashboard from "./pages/Dashboard";
 import Crawlers from "./pages/Crawlers";
 import CrawlerForm from "./pages/CrawlerForm";
