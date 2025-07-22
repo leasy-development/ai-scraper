@@ -174,14 +174,42 @@ export function Navigation() {
                   {item.label}
                 </a>
               ))}
-              <div className="flex items-center space-x-2 px-3 py-2">
-                <Button variant="ghost" size="icon" className="hover-glow">
-                  <Github className="w-5 h-5" />
-                </Button>
-                <Button className="btn-gradient flex-1">
-                  Get Started
-                </Button>
-              </div>
+              {!isLoading && (
+                isAuthenticated ? (
+                  <div className="px-3 py-2">
+                    <UserDropdown />
+                  </div>
+                ) : (
+                  <div className="space-y-2 px-3 py-2">
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start hover-glow"
+                      onClick={() => {
+                        setIsLoginModalOpen(true);
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      <LogIn className="w-4 h-4 mr-2" />
+                      Sign In
+                    </Button>
+                    <Button
+                      className="btn-gradient w-full"
+                      onClick={() => {
+                        setIsRegisterModalOpen(true);
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      <UserPlus className="w-4 h-4 mr-2" />
+                      Get Started
+                    </Button>
+                    <div className="flex justify-center pt-2">
+                      <Button variant="ghost" size="icon" className="hover-glow">
+                        <Github className="w-5 h-5" />
+                      </Button>
+                    </div>
+                  </div>
+                )
+              )}
             </div>
           </div>
         )}
