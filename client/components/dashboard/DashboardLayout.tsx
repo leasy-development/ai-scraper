@@ -32,6 +32,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     { name: 'Crawlers', href: '/dashboard/crawlers', icon: Bot },
     { name: 'Properties', href: '/dashboard/properties', icon: Building },
     { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
+    { name: 'Notifications', href: '/dashboard/notifications', icon: Bell },
     { name: 'Settings', href: '/dashboard/settings', icon: Settings },
   ];
 
