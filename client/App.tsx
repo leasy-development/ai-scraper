@@ -18,6 +18,7 @@ import Settings from "./pages/Settings";
 import Analytics from "./pages/Analytics";
 import Properties from "./pages/Properties";
 import NotFound from "./pages/NotFound";
+import { AuthDebug } from "./components/AuthDebug";
 
 const queryClient = new QueryClient();
 
