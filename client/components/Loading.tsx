@@ -27,6 +27,26 @@ export default function Loading({
   const [showWarning, setShowWarning] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
 
+  const sizeClasses = {
+    sm: 'w-4 h-4',
+    md: 'w-6 h-6',
+    lg: 'w-8 h-8',
+    xl: 'w-12 h-12'
+  };
+
+  const textSizeClasses = {
+    sm: 'text-sm',
+    md: 'text-base',
+    lg: 'text-lg',
+    xl: 'text-xl'
+  };
+
+  const containerClasses = cn(
+    "flex items-center justify-center",
+    fullScreen && "min-h-screen w-full",
+    className
+  );
+
   useEffect(() => {
     if (!timeout) return;
 
@@ -75,25 +95,6 @@ export default function Loading({
       </div>
     );
   }
-  const sizeClasses = {
-    sm: 'w-4 h-4',
-    md: 'w-6 h-6',
-    lg: 'w-8 h-8',
-    xl: 'w-12 h-12'
-  };
-
-  const textSizeClasses = {
-    sm: 'text-sm',
-    md: 'text-base',
-    lg: 'text-lg',
-    xl: 'text-xl'
-  };
-
-  const containerClasses = cn(
-    "flex items-center justify-center",
-    fullScreen && "min-h-screen w-full",
-    className
-  );
 
   const renderLoadingIcon = () => {
     const iconClasses = cn(sizeClasses[size], "animate-spin text-primary");
