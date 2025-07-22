@@ -150,6 +150,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isAuthenticated: true,
         isLoading: false,
       });
+
+      // Show welcome notification on successful registration
+      authNotify.registrationSuccess();
     } catch (error) {
       if (error instanceof ApiTimeoutError) {
         throw new Error('Registration request timed out. Please try again.');
