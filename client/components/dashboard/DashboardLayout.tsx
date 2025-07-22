@@ -28,7 +28,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   const navigation = [
     { name: 'Overview', href: '/dashboard', icon: Home },
-    { name: 'Crawlers', href: '/dashboard/crawlers', icon: Spider },
+    { name: 'Crawlers', href: '/dashboard/crawlers', icon: Bot },
     { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
     { name: 'Settings', href: '/dashboard/settings', icon: Settings },
   ];
