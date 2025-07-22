@@ -236,7 +236,7 @@ export default function Crawlers() {
           </Select>
 
           <Button variant="outline" onClick={fetchCrawlers} disabled={isLoading}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
+            {isLoading ? <ButtonLoading /> : <RefreshCw className="w-4 h-4 mr-2" />}
             Refresh
           </Button>
         </div>
