@@ -155,7 +155,7 @@ export default function Crawlers() {
       // In demo mode, just update local state
       setCrawlers(prev => prev.map(crawler =>
         crawler.id === id
-          ? { ...crawler, status, updated_at: new Date() }
+          ? { ...crawler, status, updated_at: new Date().toISOString() }
           : crawler
       ));
     }
