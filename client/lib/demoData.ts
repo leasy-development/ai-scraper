@@ -13,7 +13,7 @@ export const demoCrawlers: CrawlerResponse[] = [
     updated_at: '2024-01-20T14:45:00Z'
   },
   {
-    id: 'demo-2',
+    id: 'demo-2', 
     name: 'Hacker News Posts',
     url: 'https://news.ycombinator.com',
     description: 'Collects latest technology news and discussions',
@@ -24,7 +24,7 @@ export const demoCrawlers: CrawlerResponse[] = [
   },
   {
     id: 'demo-3',
-    name: 'Job Listings Monitor',
+    name: 'Job Listings Monitor', 
     url: 'https://jobs.example.com',
     description: 'Monitors new job postings in tech sector',
     status: CrawlerStatus.TODO,
@@ -119,89 +119,54 @@ export const demoProperties: PropertyResponse[] = [
   },
   {
     id: 'prop-2',
-    name: 'Family House with Garden',
-    address: '456 Oak Avenue, Suburbs',
+    title: 'Family House with Garden',
+    description: 'Spacious family home with private garden',
     category: PropertyCategory.FURNISHED_HOUSE,
     status: PropertyStatus.RENTED,
+    address: '456 Oak Avenue, Suburbs',
     price: 3500,
+    currency: 'USD',
     bedrooms: 4,
     bathrooms: 3,
     area: 2200,
-    description: 'Spacious family home with private garden',
-    created_at: new Date('2024-01-12T09:15:00Z'),
-    updated_at: new Date('2024-01-20T16:20:00Z')
-  },
-  {
-    id: 'prop-3',
-    name: 'Business Traveler Suite',
-    address: '789 Business District',
-    category: PropertyCategory.SERVICED_APARTMENT,
-    status: PropertyStatus.AVAILABLE,
-    price: 1800,
-    bedrooms: 1,
-    bathrooms: 1,
-    area: 800,
-    description: 'Fully serviced apartment for business travelers',
-    created_at: new Date('2024-01-18T11:00:00Z'),
-    updated_at: new Date('2024-01-20T11:00:00Z')
-  },
-  {
-    id: 'prop-4',
-    name: 'Executive Penthouse',
-    address: '321 High Street, City Center',
-    category: PropertyCategory.FURNISHED_APARTMENT,
-    status: PropertyStatus.MAINTENANCE,
-    price: 4500,
-    bedrooms: 3,
-    bathrooms: 2,
-    area: 1800,
-    description: 'Premium penthouse with panoramic views',
-    created_at: new Date('2024-01-16T14:30:00Z'),
-    updated_at: new Date('2024-01-20T18:15:00Z')
-  },
-  {
-    id: 'prop-5',
-    name: 'Corporate Housing Unit',
-    address: '654 Corporate Plaza',
-    category: PropertyCategory.SERVICED_APARTMENT,
-    status: PropertyStatus.AVAILABLE,
-    price: 2200,
-    bedrooms: 2,
-    bathrooms: 1,
-    area: 1000,
-    description: 'Professional serviced apartment with amenities',
-    created_at: new Date('2024-01-14T08:45:00Z'),
-    updated_at: new Date('2024-01-20T12:30:00Z')
+    furnished: true,
+    amenities: ['Garden', 'Garage', 'Fireplace'],
+    images: [],
+    contactEmail: 'contact@demo.com',
+    contactPhone: '+1-555-0124',
+    created_by: 'demo@aiscraper.com',
+    created_at: '2024-01-12T09:15:00Z',
+    updated_at: '2024-01-20T16:20:00Z'
   }
 ];
 
 export function getDemoProperties(page = 1, limit = 10, search = '', category = 'all', status = 'all') {
   let filtered = demoProperties;
-
+  
   // Apply search filter
   if (search) {
-    filtered = filtered.filter(property =>
-      property.name.toLowerCase().includes(search.toLowerCase()) ||
+    filtered = filtered.filter(property => 
+      property.title.toLowerCase().includes(search.toLowerCase()) ||
       property.address.toLowerCase().includes(search.toLowerCase()) ||
       property.description.toLowerCase().includes(search.toLowerCase())
     );
   }
-
+  
   // Apply category filter
   if (category !== 'all') {
     filtered = filtered.filter(property => property.category === category);
   }
-
+  
   // Apply status filter
   if (status !== 'all') {
     filtered = filtered.filter(property => property.status === status);
   }
-
+  
   // Apply pagination
   const startIndex = (page - 1) * limit;
   const endIndex = startIndex + limit;
   const paginatedProperties = filtered.slice(startIndex, endIndex);
-
+  
   return {
     properties: paginatedProperties,
     total: filtered.length,
@@ -225,11 +190,11 @@ export function getDemoPropertyStats() {
       [PropertyStatus.MAINTENANCE]: 0
     }
   };
-
+  
   demoProperties.forEach(property => {
     stats.by_category[property.category]++;
     stats.by_status[property.status]++;
   });
-
+  
   return stats;
 }
