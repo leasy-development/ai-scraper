@@ -57,11 +57,11 @@ export interface CrawlersListResponse {
 
 // Status color mapping for UI
 export const STATUS_COLORS = {
-  [CrawlerStatus.TODO]: 'bg-gray-100 text-gray-800 border-gray-200',
-  [CrawlerStatus.IN_PROGRESS]: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-  [CrawlerStatus.READY_FOR_QA]: 'bg-blue-100 text-blue-800 border-blue-200',
-  [CrawlerStatus.COMPLETED]: 'bg-green-100 text-green-800 border-green-200',
-  [CrawlerStatus.FAILED]: 'bg-red-100 text-red-800 border-red-200'
+  [CrawlerStatus.TODO]: 'bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70',
+  [CrawlerStatus.IN_PROGRESS]: 'bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70',
+  [CrawlerStatus.READY_FOR_QA]: 'bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70',
+  [CrawlerStatus.COMPLETED]: 'bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70',
+  [CrawlerStatus.FAILED]: 'bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70'
 };
 
 // Status labels for UI
