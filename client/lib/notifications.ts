@@ -26,11 +26,12 @@ export const quickNotify = {
       description: message,
       variant: 'default',
       duration: options?.duration || 4000,
-      action: options?.action ? React.createElement(ToastAction, {
-        altText: options.action.label,
-        onClick: options.action.onClick,
-        children: options.action.label,
-      }) : undefined,
+      // TODO: Fix action type issues
+      // action: options?.action ? React.createElement(ToastAction, {
+      //   altText: options.action.label,
+      //   onClick: options.action.onClick,
+      //   children: options.action.label,
+      // }) : undefined,
     });
   },
 
@@ -40,11 +41,12 @@ export const quickNotify = {
       description: message,
       variant: 'destructive',
       duration: options?.duration || 6000,
-      action: options?.action ? React.createElement(ToastAction, {
-        altText: options.action.label,
-        onClick: options.action.onClick,
-        children: options.action.label,
-      }) : undefined,
+      // TODO: Fix action type issues
+      // action: options?.action ? React.createElement(ToastAction, {
+      //   altText: options.action.label,
+      //   onClick: options.action.onClick,
+      //   children: options.action.label,
+      // }) : undefined,
     });
   },
 
@@ -54,11 +56,12 @@ export const quickNotify = {
       description: message,
       variant: 'default',
       duration: options?.duration || 4000,
-      action: options?.action ? React.createElement(ToastAction, {
-        altText: options.action.label,
-        onClick: options.action.onClick,
-        children: options.action.label,
-      }) : undefined,
+      // TODO: Fix action type issues
+      // action: options?.action ? React.createElement(ToastAction, {
+      //   altText: options.action.label,
+      //   onClick: options.action.onClick,
+      //   children: options.action.label,
+      // }) : undefined,
     });
   },
 
@@ -68,11 +71,12 @@ export const quickNotify = {
       description: message,
       variant: 'default',
       duration: options?.duration || 5000,
-      action: options?.action ? React.createElement(ToastAction, {
-        altText: options.action.label,
-        onClick: options.action.onClick,
-        children: options.action.label,
-      }) : undefined,
+      // TODO: Fix action type issues
+      // action: options?.action ? React.createElement(ToastAction, {
+      //   altText: options.action.label,
+      //   onClick: options.action.onClick,
+      //   children: options.action.label,
+      // }) : undefined,
     });
   },
 };
