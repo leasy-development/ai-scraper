@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleRegister, handleLogin, handleVerify, handleProfile } from "./routes/auth";
+import { getCrawlers, getCrawler, createCrawler, updateCrawler, deleteCrawler, getCrawlerStats } from "./routes/crawlers";
 
 export function createServer() {
   const app = express();
