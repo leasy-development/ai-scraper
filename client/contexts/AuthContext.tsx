@@ -39,6 +39,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isLoading: true,
   });
 
+  // Helper function to check if token belongs to demo user
+  const isDemoUserToken = (token: string): boolean => {
+    try {
+      // Basic check - if token exists and was created by demo login
+      const demoCheck = localStorage.getItem('demo_login_flag');
+      return demoCheck === 'true';
+    } catch {
+      return false;
+    }
+  };
+
   // Check for existing auth token on mount
   useEffect(() => {
     const checkAuthStatus = async () => {
