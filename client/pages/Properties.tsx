@@ -141,6 +141,9 @@ export default function Properties() {
       }
     } catch (error) {
       console.error('Failed to fetch stats:', error);
+
+      // Use demo stats when API is not available
+      setStats(getDemoPropertyStats());
     }
   };
 
