@@ -25,6 +25,14 @@ export function createServer() {
   app.get("/api/auth/verify", handleVerify);
   app.get("/api/auth/profile", handleProfile);
 
+  // Crawler routes
+  app.get("/api/crawlers", getCrawlers);
+  app.get("/api/crawlers/stats", getCrawlerStats);
+  app.get("/api/crawlers/:id", getCrawler);
+  app.post("/api/crawlers", createCrawler);
+  app.put("/api/crawlers/:id", updateCrawler);
+  app.delete("/api/crawlers/:id", deleteCrawler);
+
   // Catch-all for undefined API routes - return JSON error instead of HTML
   app.use("/api/*", (_req, res) => {
     res.status(404).json({
