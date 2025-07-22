@@ -50,6 +50,7 @@ function App() {
                     <Route path="/crawlers/new" element={<CrawlerForm />} />
                     <Route path="/crawlers/:id/edit" element={<CrawlerForm />} />
                     <Route path="/settings" element={<Settings />} />
+                    <Route path="/analytics" element={<Analytics />} />
                     <Route path="*" element={<NotFound />} />
                     </Routes>
                   </ProtectedRoute>
