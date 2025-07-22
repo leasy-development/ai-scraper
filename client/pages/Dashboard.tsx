@@ -189,7 +189,7 @@ export default function Dashboard() {
               
               <Button asChild variant="ghost" className="w-full justify-start hover:bg-accent/50">
                 <Link to="/dashboard/crawlers">
-                  <Spider className="w-4 h-4 mr-2" />
+                  <Bot className="w-4 h-4 mr-2" />
                   View All Crawlers
                   <ArrowRight className="w-4 h-4 ml-auto" />
                 </Link>
