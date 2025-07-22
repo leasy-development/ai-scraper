@@ -63,7 +63,7 @@ export default function Dashboard() {
     {
       title: "Total Crawlers",
       value: stats?.total || 0,
-      icon: Spider,
+      icon: Bot,
       description: "Active web crawlers",
       gradient: "from-blue-500 to-cyan-500"
     },
