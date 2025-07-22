@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { toast } from '@/hooks/use-toast';
+import { ToastAction } from '@/components/ui/toast';
 import { CheckCircle, AlertTriangle, XCircle, Info, Bell, Zap } from 'lucide-react';
 
 export type NotificationType = 'success' | 'error' | 'warning' | 'info' | 'loading' | 'custom';
@@ -116,9 +117,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       title: notification.title,
       description: notification.message,
       duration: notification.type === 'loading' ? undefined : (notification.duration || 4000),
-      action: notification.action ? React.createElement('button', {
+      action: notification.action ? React.createElement(ToastAction, {
         onClick: notification.action.onClick,
-        className: 'inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium',
         children: notification.action.label,
       }) : undefined,
     });
