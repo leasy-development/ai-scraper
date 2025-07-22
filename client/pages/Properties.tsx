@@ -78,6 +78,7 @@ export default function Properties() {
   const [totalProperties, setTotalProperties] = useState(0);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [activeTab, setActiveTab] = useState("all");
+  const limit = 10;
 
   // Stats
   const [stats, setStats] = useState<any>(null);
@@ -117,7 +118,7 @@ export default function Properties() {
       console.error('Failed to fetch properties:', error);
 
       // Use demo data when API is not available
-      const demoData = getDemoProperties(page, limit, searchQuery, categoryFilter, statusFilter);
+      const demoData = getDemoProperties(currentPage, limit, searchQuery, categoryFilter, statusFilter);
       setProperties(demoData.properties);
       setTotalProperties(demoData.total);
       setTotalPages(demoData.pages);
