@@ -49,8 +49,7 @@ import {
   Bath,
   Square,
   DollarSign,
-  Phone,
-  Mail,
+
   RefreshCw,
   Grid3x3,
   List
@@ -281,12 +280,7 @@ export default function Properties() {
           </div>
         </div>
 
-        <Badge 
-          variant="secondary" 
-          className={`${STATUS_COLORS[property.status]} border w-fit`}
-        >
-          {STATUS_LABELS[property.status]}
-        </Badge>
+
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -309,22 +303,10 @@ export default function Properties() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between pt-4 border-t border-border/50">
+        <div className="pt-4 border-t border-border/50">
           <div className="text-xl font-bold text-foreground">
             {formatPrice(property.price, property.currency)}
             <span className="text-sm font-normal text-muted-foreground">/month</span>
-          </div>
-          <div className="flex space-x-2">
-            <Button size="sm" variant="ghost" asChild>
-              <a href={`tel:${property.contactPhone}`}>
-                <Phone className="w-4 h-4" />
-              </a>
-            </Button>
-            <Button size="sm" variant="ghost" asChild>
-              <a href={`mailto:${property.contactEmail}`}>
-                <Mail className="w-4 h-4" />
-              </a>
-            </Button>
           </div>
         </div>
       </CardContent>
