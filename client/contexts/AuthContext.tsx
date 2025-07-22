@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { api, authRequest, ApiError, ApiTimeoutError, ApiNetworkError } from '@/lib/api';
+import { authNotify } from '@/lib/notifications';
 
 export interface User {
   id: string;
@@ -113,6 +114,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isAuthenticated: true,
         isLoading: false,
       });
+
+      // Show welcome notification on successful login
+      authNotify.loginSuccess();
     } catch (error) {
       if (error instanceof ApiTimeoutError) {
         throw new Error('Login request timed out. Please try again.');
