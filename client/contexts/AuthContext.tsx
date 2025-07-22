@@ -208,6 +208,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('demo_login_flag');
     setAuthState({
       user: null,
       isAuthenticated: false,
