@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -32,6 +33,8 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
   const [error, setError] = useState('');
   
   const { register } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const passwordRequirements = [
     { label: 'At least 8 characters', test: (pwd: string) => pwd.length >= 8 },
@@ -62,6 +65,10 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
       await register(formData.name, formData.email, formData.password);
       onClose();
       setFormData({ name: '', email: '', password: '', confirmPassword: '' });
+
+      // Redirect to dashboard after successful registration
+      const from = (location.state as any)?.from?.pathname || '/dashboard';
+      navigate(from, { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed');
     } finally {
