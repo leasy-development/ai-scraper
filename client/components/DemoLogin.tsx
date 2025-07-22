@@ -38,8 +38,10 @@ export function DemoLogin({ onClose }: DemoLoginProps) {
       await login(demoCredentials.email, demoCredentials.password);
       if (onClose) onClose();
 
-      // Navigate to dashboard after successful login
-      navigate('/dashboard');
+      // Small delay to ensure auth state propagates, then navigate to dashboard
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 100);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Demo login failed");
     } finally {
