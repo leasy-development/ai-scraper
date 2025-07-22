@@ -39,25 +39,25 @@ export default function Index() {
           <div className={`inline-block transition-all duration-1000 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
             <Badge className="glass px-4 py-2 text-sm font-medium mb-6 hover-glow">
               <Sparkles className="w-4 h-4 mr-2" />
-              Cutting-Edge Technology
+              AI-Powered Web Scraping
             </Badge>
           </div>
 
           {/* Main headline */}
           <h1 className={`text-display-2xl sm:text-display-xl md:text-display-2xl font-bold mb-6 transition-all duration-1000 animation-delay-200 ${isVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'}`}>
             <span className="gradient-text animate-gradient-shift">
-              The Future of
+              Intelligent Data
             </span>
             <br />
             <span className="text-foreground">
-              Digital Excellence
+              Extraction Platform
             </span>
           </h1>
 
           {/* Subtitle */}
           <p className={`text-xl sm:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto text-balance transition-all duration-1000 animation-delay-400 ${isVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'}`}>
-            Experience the pinnacle of modern web design with cutting-edge technology, 
-            breathtaking animations, and unparalleled user experience.
+            Harness the power of AI to extract, transform, and analyze web data at scale.
+            Built for modern businesses that need reliable, intelligent web scraping solutions.
           </p>
 
           {/* CTA Buttons */}
