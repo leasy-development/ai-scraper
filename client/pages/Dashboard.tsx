@@ -16,6 +16,7 @@ import {
   Activity,
   Rocket
 } from "lucide-react";
+import { SkeletonCard } from "@/components/Loading";
 import { CrawlerStatus, STATUS_LABELS, STATUS_COLORS } from "@shared/crawler";
 
 interface DashboardStats {
