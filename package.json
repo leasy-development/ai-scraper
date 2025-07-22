@@ -18,7 +18,11 @@
     "start": "node dist/server/node-build.mjs",
     "test": "vitest --run",
     "format.fix": "prettier --write .",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "lint": "tsc --noEmit",
+    "stability:check": "npm run lint && npm run build",
+    "health:server": "curl -f http://localhost:8080/api/ping || exit 1",
+    "precommit": "npm run lint && npm run test"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",
