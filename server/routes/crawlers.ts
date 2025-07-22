@@ -1,14 +1,14 @@
 import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
-import { 
-  Crawler, 
-  CrawlerStatus, 
-  CreateCrawlerRequest, 
+import {
+  Crawler,
+  CrawlerStatus,
+  CreateCrawlerRequest,
   UpdateCrawlerRequest,
   CrawlerResponse,
   CrawlersListResponse,
-  validateCrawlerData 
-} from "@shared/crawler";
+  validateCrawlerData
+} from "../../shared/crawler";
 
 // In-memory crawler storage (replace with database in production)
 const crawlers: Crawler[] = [];
