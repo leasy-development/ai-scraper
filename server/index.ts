@@ -18,6 +18,12 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // Authentication routes
+  app.post("/api/auth/register", handleRegister);
+  app.post("/api/auth/login", handleLogin);
+  app.get("/api/auth/verify", handleVerify);
+  app.get("/api/auth/profile", handleProfile);
+
   // Catch-all for undefined API routes - return JSON error instead of HTML
   app.use("/api/*", (_req, res) => {
     res.status(404).json({
