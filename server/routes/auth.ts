@@ -12,6 +12,26 @@ interface User {
 }
 
 const users: User[] = [];
+
+// Initialize demo user on startup
+async function initDemoUser() {
+  const demoPassword = await hashPassword('demo123');
+  const demoUser: User = {
+    id: 'demo-user-123',
+    name: 'Demo User',
+    email: 'demo@aiscraper.com',
+    password: demoPassword,
+    createdAt: new Date('2024-01-01')
+  };
+
+  // Only add if not already exists
+  if (!users.find(u => u.email === demoUser.email)) {
+    users.push(demoUser);
+  }
+}
+
+// Initialize demo user
+initDemoUser().catch(console.error);
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production';
 
 // Helper function to generate JWT token
