@@ -31,6 +31,7 @@ function App() {
           <Sonner />
           <BrowserRouter>
             <div className="min-h-screen bg-background">
+              <AuthDebug />
               <Routes>
                 {/* Public routes with navigation */}
                 <Route path="/" element={
