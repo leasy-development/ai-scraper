@@ -12,6 +12,82 @@ import {
 
 // In-memory crawler storage (replace with database in production)
 const crawlers: Crawler[] = [];
+
+// Initialize demo crawlers
+function initDemoCrawlers() {
+  const demoCrawlers: Crawler[] = [
+    {
+      id: 'demo-1',
+      name: 'E-commerce Price Monitor',
+      url: 'https://example-store.com/products',
+      description: 'Monitors product prices across multiple e-commerce sites to track competitor pricing and identify market trends.',
+      status: CrawlerStatus.COMPLETED,
+      created_by: 'demo-user-123',
+      created_at: new Date('2024-01-15'),
+      updated_at: new Date('2024-01-20')
+    },
+    {
+      id: 'demo-2',
+      name: 'News Article Aggregator',
+      url: 'https://tech-news.com',
+      description: 'Collects and categorizes technology news articles from various sources for content analysis and trend identification.',
+      status: CrawlerStatus.IN_PROGRESS,
+      created_by: 'demo-user-123',
+      created_at: new Date('2024-01-18'),
+      updated_at: new Date('2024-01-21')
+    },
+    {
+      id: 'demo-3',
+      name: 'Social Media Sentiment Tracker',
+      url: 'https://social-platform.com/api',
+      description: 'Extracts and analyzes social media posts to gauge public sentiment about specific brands and products.',
+      status: CrawlerStatus.READY_FOR_QA,
+      created_by: 'demo-user-123',
+      created_at: new Date('2024-01-19'),
+      updated_at: new Date('2024-01-19')
+    },
+    {
+      id: 'demo-4',
+      name: 'Job Listings Collector',
+      url: 'https://job-board.com',
+      description: 'Gathers job postings from various job boards to analyze market demand and salary trends in different industries.',
+      status: CrawlerStatus.TODO,
+      created_by: 'demo-user-123',
+      created_at: new Date('2024-01-20'),
+      updated_at: new Date('2024-01-20')
+    },
+    {
+      id: 'demo-5',
+      name: 'Real Estate Market Scanner',
+      url: 'https://property-listings.com',
+      description: 'Scrapes property listings to track real estate market trends, pricing patterns, and availability in target areas.',
+      status: CrawlerStatus.FAILED,
+      created_by: 'demo-user-123',
+      created_at: new Date('2024-01-21'),
+      updated_at: new Date('2024-01-21')
+    },
+    {
+      id: 'demo-6',
+      name: 'Weather Data Collector',
+      url: 'https://weather-api.com/historical',
+      description: 'Collects historical weather data for climate analysis and predictive modeling across multiple geographic regions.',
+      status: CrawlerStatus.COMPLETED,
+      created_by: 'demo-user-123',
+      created_at: new Date('2024-01-16'),
+      updated_at: new Date('2024-01-17')
+    }
+  ];
+
+  // Add demo crawlers if they don't exist
+  demoCrawlers.forEach(demoCrawler => {
+    if (!crawlers.find(c => c.id === demoCrawler.id)) {
+      crawlers.push(demoCrawler);
+    }
+  });
+}
+
+// Initialize demo data
+initDemoCrawlers();
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production';
 
 // Helper function to verify JWT token and get user ID
