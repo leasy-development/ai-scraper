@@ -12,8 +12,7 @@ import {
   X,
   Sparkles,
   Github,
-  LogIn,
-  UserPlus
+  LogIn
 } from "lucide-react";
 
 export function Navigation() {
