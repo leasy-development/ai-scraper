@@ -4,6 +4,7 @@ import { handleDemo } from "./routes/demo";
 import { handleRegister, handleLogin, handleVerify, handleProfile } from "./routes/auth";
 import { getCrawlers, getCrawler, createCrawler, updateCrawler, deleteCrawler, getCrawlerStats } from "./routes/crawlers";
 import { updateProfile, changePassword, deleteAccount, getAccountStats } from "./routes/account";
+import { getProperties, getProperty, createProperty, updateProperty, deleteProperty, getPropertyStats } from "./routes/properties";
 
 export function createServer() {
   const app = express();
