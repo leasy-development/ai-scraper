@@ -47,22 +47,47 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return;
         }
 
-        // Verify token with server
-        const response = await fetch('/api/auth/verify', {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        // Create AbortController for timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
-        if (response.ok) {
-          const user = await response.json();
-          setAuthState({
-            user,
-            isAuthenticated: true,
-            isLoading: false,
+        try {
+          // Verify token with server
+          const response = await fetch('/api/auth/verify', {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+            signal: controller.signal,
           });
-        } else {
-          // Invalid token
+
+          clearTimeout(timeoutId);
+
+          if (response.ok) {
+            const user = await response.json();
+            setAuthState({
+              user,
+              isAuthenticated: true,
+              isLoading: false,
+            });
+          } else {
+            // Invalid token - clear it and set unauthenticated
+            console.warn('Token verification failed:', response.status);
+            localStorage.removeItem('auth_token');
+            setAuthState({
+              user: null,
+              isAuthenticated: false,
+              isLoading: false,
+            });
+          }
+        } catch (fetchError) {
+          clearTimeout(timeoutId);
+          if (fetchError.name === 'AbortError') {
+            console.error('Auth verification timed out');
+          } else {
+            console.error('Auth verification request failed:', fetchError);
+          }
+
+          // On network error or timeout, remove token and set unauthenticated
           localStorage.removeItem('auth_token');
           setAuthState({
             user: null,
