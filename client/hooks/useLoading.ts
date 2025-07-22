@@ -112,7 +112,7 @@ export function useDataFetcher<T = any>(
   }, [fetchData]);
 
   // Initial fetch
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData();
   }, [fetchData]);
 
