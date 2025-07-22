@@ -1,0 +1,170 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  avatar?: string;
+}
+
+export interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+}
+
+export interface AuthContextType extends AuthState {
+  login: (email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<void>;
+  logout: () => void;
+  updateUser: (user: Partial<User>) => void;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+}
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [authState, setAuthState] = useState<AuthState>({
+    user: null,
+    isAuthenticated: false,
+    isLoading: true,
+  });
+
+  // Check for existing auth token on mount
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const token = localStorage.getItem('auth_token');
+        if (!token) {
+          setAuthState(prev => ({ ...prev, isLoading: false }));
+          return;
+        }
+
+        // Verify token with server
+        const response = await fetch('/api/auth/verify', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const user = await response.json();
+          setAuthState({
+            user,
+            isAuthenticated: true,
+            isLoading: false,
+          });
+        } else {
+          // Invalid token
+          localStorage.removeItem('auth_token');
+          setAuthState({
+            user: null,
+            isAuthenticated: false,
+            isLoading: false,
+          });
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        localStorage.removeItem('auth_token');
+        setAuthState({
+          user: null,
+          isAuthenticated: false,
+          isLoading: false,
+        });
+      }
+    };
+
+    checkAuthStatus();
+  }, []);
+
+  const login = async (email: string, password: string) => {
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Login failed');
+      }
+
+      const { user, token } = await response.json();
+      
+      localStorage.setItem('auth_token', token);
+      setAuthState({
+        user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    }
+  };
+
+  const register = async (name: string, email: string, password: string) => {
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Registration failed');
+      }
+
+      const { user, token } = await response.json();
+      
+      localStorage.setItem('auth_token', token);
+      setAuthState({
+        user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error('Registration error:', error);
+      throw error;
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem('auth_token');
+    setAuthState({
+      user: null,
+      isAuthenticated: false,
+      isLoading: false,
+    });
+  };
+
+  const updateUser = (updates: Partial<User>) => {
+    setAuthState(prev => ({
+      ...prev,
+      user: prev.user ? { ...prev.user, ...updates } : null,
+    }));
+  };
+
+  const value: AuthContextType = {
+    ...authState,
+    login,
+    register,
+    logout,
+    updateUser,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
