@@ -49,6 +49,7 @@ import {
   STATUS_LABELS, 
   STATUS_COLORS 
 } from "@shared/crawler";
+import { getDemoCrawlers } from "@/lib/demoData";
 import {
   DropdownMenu,
   DropdownMenuContent,
