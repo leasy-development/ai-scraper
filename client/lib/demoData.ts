@@ -1,4 +1,4 @@
-import { CrawlerResponse } from '@shared/crawler';
+import { CrawlerResponse, CrawlerStatus } from '@shared/crawler';
 import { PropertyResponse, PropertyCategory, PropertyStatus } from '@shared/property';
 
 export const demoCrawlers: CrawlerResponse[] = [
@@ -7,54 +7,60 @@ export const demoCrawlers: CrawlerResponse[] = [
     name: 'Amazon Product Scraper',
     url: 'https://amazon.com/products',
     description: 'Scrapes product listings from Amazon marketplace',
-    status: 'in_progress',
-    created_at: new Date('2024-01-15T10:30:00Z'),
-    updated_at: new Date('2024-01-20T14:45:00Z')
+    status: CrawlerStatus.IN_PROGRESS,
+    created_by: 'demo@aiscraper.com',
+    created_at: '2024-01-15T10:30:00Z',
+    updated_at: '2024-01-20T14:45:00Z'
   },
   {
-    id: 'demo-2', 
+    id: 'demo-2',
     name: 'Hacker News Posts',
     url: 'https://news.ycombinator.com',
     description: 'Collects latest technology news and discussions',
-    status: 'completed',
-    created_at: new Date('2024-01-12T09:15:00Z'),
-    updated_at: new Date('2024-01-20T16:20:00Z')
+    status: CrawlerStatus.COMPLETED,
+    created_by: 'demo@aiscraper.com',
+    created_at: '2024-01-12T09:15:00Z',
+    updated_at: '2024-01-20T16:20:00Z'
   },
   {
     id: 'demo-3',
-    name: 'Job Listings Monitor', 
+    name: 'Job Listings Monitor',
     url: 'https://jobs.example.com',
     description: 'Monitors new job postings in tech sector',
-    status: 'todo',
-    created_at: new Date('2024-01-18T11:00:00Z'),
-    updated_at: new Date('2024-01-20T11:00:00Z')
+    status: CrawlerStatus.TODO,
+    created_by: 'demo@aiscraper.com',
+    created_at: '2024-01-18T11:00:00Z',
+    updated_at: '2024-01-20T11:00:00Z'
   },
   {
     id: 'demo-4',
     name: 'Social Media Tracker',
     url: 'https://twitter.com/trending',
     description: 'Tracks trending topics and hashtags',
-    status: 'qa', 
-    created_at: new Date('2024-01-16T14:30:00Z'),
-    updated_at: new Date('2024-01-20T18:15:00Z')
+    status: CrawlerStatus.READY_FOR_QA,
+    created_by: 'demo@aiscraper.com',
+    created_at: '2024-01-16T14:30:00Z',
+    updated_at: '2024-01-20T18:15:00Z'
   },
   {
     id: 'demo-5',
     name: 'Real Estate Listings',
     url: 'https://zillow.com/search',
     description: 'Monitors property listings and price changes',
-    status: 'failed',
-    created_at: new Date('2024-01-14T08:45:00Z'),
-    updated_at: new Date('2024-01-20T12:30:00Z')
+    status: CrawlerStatus.FAILED,
+    created_by: 'demo@aiscraper.com',
+    created_at: '2024-01-14T08:45:00Z',
+    updated_at: '2024-01-20T12:30:00Z'
   },
   {
     id: 'demo-6',
     name: 'Financial Data Collector',
     url: 'https://finance.yahoo.com',
     description: 'Collects stock prices and financial metrics',
-    status: 'in_progress',
-    created_at: new Date('2024-01-17T13:20:00Z'), 
-    updated_at: new Date('2024-01-20T19:45:00Z')
+    status: CrawlerStatus.IN_PROGRESS,
+    created_by: 'demo@aiscraper.com',
+    created_at: '2024-01-17T13:20:00Z',
+    updated_at: '2024-01-20T19:45:00Z'
   }
 ];
 
