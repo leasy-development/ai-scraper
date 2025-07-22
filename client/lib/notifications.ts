@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { toast } from '@/hooks/use-toast';
+import { ToastAction } from '@/components/ui/toast';
 
 export interface QuickNotificationOptions {
   duration?: number;
@@ -25,9 +26,8 @@ export const quickNotify = {
       description: message,
       variant: 'default',
       duration: options?.duration || 4000,
-      action: options?.action ? React.createElement('button', {
+      action: options?.action ? React.createElement(ToastAction, {
         onClick: options.action.onClick,
-        className: 'inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium',
         children: options.action.label,
       }) : undefined,
     });
@@ -39,9 +39,8 @@ export const quickNotify = {
       description: message,
       variant: 'destructive',
       duration: options?.duration || 6000,
-      action: options?.action ? React.createElement('button', {
+      action: options?.action ? React.createElement(ToastAction, {
         onClick: options.action.onClick,
-        className: 'inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium',
         children: options.action.label,
       }) : undefined,
     });
@@ -53,9 +52,8 @@ export const quickNotify = {
       description: message,
       variant: 'default',
       duration: options?.duration || 4000,
-      action: options?.action ? React.createElement('button', {
+      action: options?.action ? React.createElement(ToastAction, {
         onClick: options.action.onClick,
-        className: 'inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium',
         children: options.action.label,
       }) : undefined,
     });
@@ -67,9 +65,8 @@ export const quickNotify = {
       description: message,
       variant: 'default',
       duration: options?.duration || 5000,
-      action: options?.action ? React.createElement('button', {
+      action: options?.action ? React.createElement(ToastAction, {
         onClick: options.action.onClick,
-        className: 'inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium',
         children: options.action.label,
       }) : undefined,
     });
