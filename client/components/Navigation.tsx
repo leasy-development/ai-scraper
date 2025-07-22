@@ -105,6 +105,10 @@ export function Navigation() {
               <Github className="w-5 h-5" />
             </Button>
 
+            {!isLoading && isAuthenticated && (
+              <NotificationCenter />
+            )}
+
             {!isLoading && (
               isAuthenticated ? (
                 <UserDropdown />
@@ -132,6 +136,10 @@ export function Navigation() {
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center space-x-2">
+            {!isLoading && isAuthenticated && (
+              <NotificationCenter />
+            )}
+
             <Button
               variant="ghost"
               size="icon"
