@@ -23,14 +23,38 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <div className="min-h-screen bg-background">
-            <Navigation />
-            <main>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
+            <Routes>
+              {/* Public routes with navigation */}
+              <Route path="/" element={
+                <div>
+                  <Navigation />
+                  <main>
+                    <Index />
+                  </main>
+                </div>
+              } />
+
+              {/* Protected dashboard routes without public navigation */}
+              <Route path="/dashboard/*" element={
+                <ProtectedRoute>
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    {/* Add more dashboard routes here */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </ProtectedRoute>
+              } />
+
+              {/* Catch-all route */}
+              <Route path="*" element={
+                <div>
+                  <Navigation />
+                  <main>
+                    <NotFound />
+                  </main>
+                </div>
+              } />
+            </Routes>
           </div>
         </BrowserRouter>
       </TooltipProvider>
