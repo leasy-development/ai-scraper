@@ -15,27 +15,18 @@ export function Footer() {
   const footerLinks = {
     product: [
       { name: "Features", href: "#features" },
-      { name: "Pricing", href: "#pricing" },
       { name: "Documentation", href: "/docs" },
       { name: "API Reference", href: "/api-docs" },
     ],
-    company: [
-      { name: "About Us", href: "/about" },
-      { name: "Blog", href: "/blog" },
-      { name: "Careers", href: "/careers" },
-      { name: "Contact", href: "/contact" },
-    ],
-    legal: [
-      { name: "Privacy Policy", href: "/privacy" },
-      { name: "Terms of Service", href: "/terms" },
-      { name: "Cookie Policy", href: "/cookies" },
-      { name: "Security", href: "/security" },
+    resources: [
+      { name: "Getting Started", href: "/getting-started" },
+      { name: "Examples", href: "/examples" },
+      { name: "GitHub", href: "https://github.com" },
     ],
     support: [
-      { name: "Help Center", href: "/help" },
+      { name: "Issues", href: "/issues" },
       { name: "Community", href: "/community" },
       { name: "Status", href: "/status" },
-      { name: "Report Bug", href: "/report" },
     ],
   };
 
