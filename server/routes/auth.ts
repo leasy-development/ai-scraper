@@ -11,7 +11,7 @@ interface User {
   createdAt: Date;
 }
 
-const users: User[] = [];
+export const users: User[] = [];
 
 // Initialize demo user on startup
 async function initDemoUser() {
