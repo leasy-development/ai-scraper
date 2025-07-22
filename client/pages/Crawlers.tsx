@@ -102,6 +102,12 @@ export default function Crawlers() {
       }
     } catch (error) {
       console.error('Failed to fetch crawlers:', error);
+
+      // Use demo data when API is not available
+      const demoData = getDemoCrawlers(page, limit, searchQuery, statusFilter);
+      setCrawlers(demoData.crawlers);
+      setTotalCrawlers(demoData.total);
+      setTotalPages(demoData.pages);
     } finally {
       setIsLoading(false);
     }
