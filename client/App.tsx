@@ -11,6 +11,8 @@ import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { Navigation } from "./components/Navigation";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
+import Crawlers from "./pages/Crawlers";
+import CrawlerForm from "./pages/CrawlerForm";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
