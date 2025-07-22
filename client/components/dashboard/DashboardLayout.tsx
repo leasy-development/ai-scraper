@@ -61,7 +61,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="flex items-center justify-between h-16 px-6 border-b border-border/50">
             <Link to="/dashboard" className="flex items-center space-x-2">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-primary to-gradient-via flex items-center justify-center">
-                <Spider className="w-5 h-5 text-white" />
+                <Bot className="w-5 h-5 text-white" />
               </div>
               <span className="font-bold text-xl gradient-text">AiScraper</span>
             </Link>
