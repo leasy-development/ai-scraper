@@ -22,6 +22,7 @@ import NotificationDemo from "./pages/NotificationDemo";
 import NotFound from "./pages/NotFound";
 import { AuthDebug } from "./components/AuthDebug";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import { TestNotifications } from "./components/TestNotifications";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ function App() {
             <BrowserRouter>
               <div className="min-h-screen bg-background">
                 {process.env.NODE_ENV === 'development' && <AuthDebug />}
+                <TestNotifications />
                 <Routes>
                 {/* Public routes with navigation */}
                 <Route path="/" element={
