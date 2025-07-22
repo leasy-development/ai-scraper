@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { 
-  Spider, 
-  Github, 
-  Twitter, 
-  Linkedin, 
+import {
+  Bot,
+  Github,
+  Twitter,
+  Linkedin,
   Mail,
   Heart
 } from "lucide-react";
