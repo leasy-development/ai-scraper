@@ -1,15 +1,19 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { 
-  Moon, 
-  Sun, 
-  Menu, 
-  X, 
+import { useAuth } from "@/contexts/AuthContext";
+import { LoginModal } from "@/components/auth/LoginModal";
+import { RegisterModal } from "@/components/auth/RegisterModal";
+import { UserDropdown } from "@/components/auth/UserDropdown";
+import {
+  Moon,
+  Sun,
+  Menu,
+  X,
   Sparkles,
   Github,
-  Twitter,
-  Linkedin
+  LogIn,
+  UserPlus
 } from "lucide-react";
 
 export function Navigation() {
