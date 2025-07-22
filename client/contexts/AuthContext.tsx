@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { api, authRequest, ApiError, ApiTimeoutError, ApiNetworkError } from '@/lib/api';
 import { authNotify } from '@/lib/notifications';
+import { useNotificationActions } from '@/contexts/NotificationContext';
 
 export interface User {
   id: string;
