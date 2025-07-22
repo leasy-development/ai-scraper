@@ -68,6 +68,7 @@ export default function Crawlers() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCrawlers, setTotalCrawlers] = useState(0);
+  const limit = 10;
 
   useEffect(() => {
     fetchCrawlers();
@@ -104,7 +105,7 @@ export default function Crawlers() {
       console.error('Failed to fetch crawlers:', error);
 
       // Use demo data when API is not available
-      const demoData = getDemoCrawlers(page, limit, searchQuery, statusFilter);
+      const demoData = getDemoCrawlers(currentPage, limit, searchQuery, statusFilter);
       setCrawlers(demoData.crawlers);
       setTotalCrawlers(demoData.total);
       setTotalPages(demoData.pages);
