@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { LoginModal } from "@/components/auth/LoginModal";
-import { RegisterModal } from "@/components/auth/RegisterModal";
 import { UserDropdown } from "@/components/auth/UserDropdown";
 import { NotificationCenter } from "@/components/notifications/NotificationCenter";
 import {
@@ -21,7 +20,6 @@ export function Navigation() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -113,23 +111,14 @@ export function Navigation() {
               isAuthenticated ? (
                 <UserDropdown />
               ) : (
-                <div className="flex items-center space-x-2">
-                  <Button
-                    variant="ghost"
-                    onClick={() => setIsLoginModalOpen(true)}
-                    className="hover-glow"
-                  >
-                    <LogIn className="w-4 h-4 mr-2" />
-                    Sign In
-                  </Button>
-                  <Button
-                    className="btn-gradient"
-                    onClick={() => setIsRegisterModalOpen(true)}
-                  >
-                    <UserPlus className="w-4 h-4 mr-2" />
-                    Get Started
-                  </Button>
-                </div>
+                <Button
+                  variant="ghost"
+                  onClick={() => setIsLoginModalOpen(true)}
+                  className="hover-glow"
+                >
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Sign In
+                </Button>
               )
             )}
           </div>
@@ -199,16 +188,6 @@ export function Navigation() {
                       <LogIn className="w-4 h-4 mr-2" />
                       Sign In
                     </Button>
-                    <Button
-                      className="btn-gradient w-full"
-                      onClick={() => {
-                        setIsRegisterModalOpen(true);
-                        setIsMobileMenuOpen(false);
-                      }}
-                    >
-                      <UserPlus className="w-4 h-4 mr-2" />
-                      Get Started
-                    </Button>
                     <div className="flex justify-center pt-2">
                       <Button variant="ghost" size="icon" className="hover-glow">
                         <Github className="w-5 h-5" />
@@ -226,19 +205,6 @@ export function Navigation() {
       <LoginModal
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
-        onSwitchToRegister={() => {
-          setIsLoginModalOpen(false);
-          setIsRegisterModalOpen(true);
-        }}
-      />
-
-      <RegisterModal
-        isOpen={isRegisterModalOpen}
-        onClose={() => setIsRegisterModalOpen(false)}
-        onSwitchToLogin={() => {
-          setIsRegisterModalOpen(false);
-          setIsLoginModalOpen(true);
-        }}
       />
     </nav>
   );
