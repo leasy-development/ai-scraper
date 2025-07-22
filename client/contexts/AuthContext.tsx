@@ -86,7 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
           // Check if this might be a demo user token and allow offline mode
           const storedToken = localStorage.getItem('auth_token');
-          if (storedToken && this.isDemoUserToken(storedToken)) {
+          if (storedToken && isDemoUserToken(storedToken)) {
             // Allow demo user to work offline
             setAuthState({
               user: {
