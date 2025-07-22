@@ -198,18 +198,18 @@ export default function Index() {
         <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-gradient-via/10 to-gradient-to/10" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <h2 className="text-display-lg font-bold mb-6">
-            Ready to <span className="gradient-text">Transform</span> Your Digital Experience?
+            Ready to <span className="gradient-text">Supercharge</span> Your Data Collection?
           </h2>
           <p className="text-xl text-muted-foreground mb-12 text-balance">
-            Join thousands of forward-thinking companies already using our cutting-edge platform.
+            Join thousands of data-driven companies already using AiScraper to extract valuable insights from the web.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button className="btn-gradient text-lg px-8 py-6">
-              Start Your Journey
+              Start Scraping Free
               <Rocket className="w-5 h-5 ml-2" />
             </Button>
             <Button variant="ghost" className="btn-glass text-lg px-8 py-6">
-              Schedule Demo
+              View Live Demo
             </Button>
           </div>
         </div>
