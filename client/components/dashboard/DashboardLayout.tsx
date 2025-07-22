@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
-import { 
-  Menu, 
-  X, 
-  Home, 
-  Spider, 
-  BarChart3, 
-  Settings, 
+import {
+  Menu,
+  X,
+  Home,
+  Bot,
+  BarChart3,
+  Settings,
   LogOut,
   Plus,
   Bell,
