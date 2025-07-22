@@ -50,8 +50,8 @@ export function Footer() {
               <span className="font-bold text-xl gradient-text">AiScraper</span>
             </Link>
             <p className="text-muted-foreground text-sm mb-6 max-w-sm">
-              The most powerful AI-powered web scraping platform for modern teams. 
-              Extract, transform, and analyze web data at scale.
+              A powerful web crawler management tool for developers and administrators.
+              Monitor, configure, and track your scraping operations.
             </p>
             
             {/* Social Links */}
