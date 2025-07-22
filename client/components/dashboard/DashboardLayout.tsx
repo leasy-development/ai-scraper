@@ -7,6 +7,7 @@ import {
   X,
   Home,
   Bot,
+  Building,
   BarChart3,
   Settings,
   LogOut,
