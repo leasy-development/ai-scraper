@@ -14,6 +14,7 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Crawlers from "./pages/Crawlers";
 import CrawlerForm from "./pages/CrawlerForm";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
