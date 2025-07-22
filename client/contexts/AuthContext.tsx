@@ -174,6 +174,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       isAuthenticated: false,
       isLoading: false,
     });
+
+    // Show logout notification
+    authNotify.logoutSuccess();
   };
 
   const updateUser = (updates: Partial<User>) => {
