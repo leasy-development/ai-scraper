@@ -115,6 +115,12 @@ export default function Properties() {
       }
     } catch (error) {
       console.error('Failed to fetch properties:', error);
+
+      // Use demo data when API is not available
+      const demoData = getDemoProperties(page, limit, searchQuery, categoryFilter, statusFilter);
+      setProperties(demoData.properties);
+      setTotalProperties(demoData.total);
+      setTotalPages(demoData.pages);
     } finally {
       setIsLoading(false);
     }
