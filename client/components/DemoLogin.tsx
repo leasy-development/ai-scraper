@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +23,7 @@ export function DemoLogin({ onClose }: DemoLoginProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const demoCredentials = {
     email: "demo@aiscraper.com",
@@ -35,6 +37,9 @@ export function DemoLogin({ onClose }: DemoLoginProps) {
     try {
       await login(demoCredentials.email, demoCredentials.password);
       if (onClose) onClose();
+
+      // Navigate to dashboard after successful login
+      navigate('/dashboard');
     } catch (err) {
       setError(err instanceof Error ? err.message : "Demo login failed");
     } finally {
