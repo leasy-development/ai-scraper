@@ -45,10 +45,11 @@ function App() {
                   <ProtectedRoute>
                     <Routes>
                       <Route path="/" element={<Dashboard />} />
-                      <Route path="/crawlers" element={<Crawlers />} />
-                      <Route path="/crawlers/new" element={<CrawlerForm />} />
-                      <Route path="/crawlers/:id/edit" element={<CrawlerForm />} />
-                      <Route path="*" element={<NotFound />} />
+                    <Route path="/crawlers" element={<Crawlers />} />
+                    <Route path="/crawlers/new" element={<CrawlerForm />} />
+                    <Route path="/crawlers/:id/edit" element={<CrawlerForm />} />
+                    <Route path="/settings" element={<Settings />} />
+                    <Route path="*" element={<NotFound />} />
                     </Routes>
                   </ProtectedRoute>
                 } />
