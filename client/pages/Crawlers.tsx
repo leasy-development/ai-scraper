@@ -31,17 +31,17 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Link } from "react-router-dom";
-import { 
-  Plus, 
-  Search, 
-  Filter, 
-  MoreHorizontal, 
-  Edit, 
-  Trash2, 
+import {
+  Plus,
+  Search,
+  Filter,
+  MoreHorizontal,
+  Edit,
+  Trash2,
   ExternalLink,
-  Loader2,
   RefreshCw
 } from "lucide-react";
+import { TableLoading, ButtonLoading } from "@/components/Loading";
 import { 
   CrawlerStatus, 
   CrawlerResponse, 
