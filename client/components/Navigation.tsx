@@ -5,6 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { RegisterModal } from "@/components/auth/RegisterModal";
 import { UserDropdown } from "@/components/auth/UserDropdown";
+import { NotificationCenter } from "@/components/notifications/NotificationCenter";
 import {
   Moon,
   Sun,
