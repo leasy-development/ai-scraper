@@ -19,20 +19,22 @@ import Analytics from "./pages/Analytics";
 import Properties from "./pages/Properties";
 import NotFound from "./pages/NotFound";
 import { AuthDebug } from "./components/AuthDebug";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <div className="min-h-screen bg-background">
-              <AuthDebug />
-              <Routes>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <div className="min-h-screen bg-background">
+                <AuthDebug />
+                <Routes>
                 {/* Public routes with navigation */}
                 <Route path="/" element={
                   <div>
@@ -97,6 +99,7 @@ function App() {
         </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 
