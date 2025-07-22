@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
-import { Loader2, Bot, Zap, RefreshCw } from "lucide-react";
+import { Loader2, Bot, Zap, RefreshCw, AlertTriangle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface LoadingProps {
   variant?: 'spinner' | 'dots' | 'pulse' | 'brand' | 'minimal';
@@ -7,15 +9,72 @@ interface LoadingProps {
   text?: string;
   className?: string;
   fullScreen?: boolean;
+  timeout?: number; // Timeout in milliseconds
+  onTimeout?: () => void; // Callback when timeout occurs
+  showTimeoutWarning?: boolean; // Show warning before timeout
 }
 
-export default function Loading({ 
-  variant = 'spinner', 
-  size = 'md', 
+export default function Loading({
+  variant = 'spinner',
+  size = 'md',
   text,
   className,
-  fullScreen = false
+  fullScreen = false,
+  timeout,
+  onTimeout,
+  showTimeoutWarning = true
 }: LoadingProps) {
+  const [showWarning, setShowWarning] = useState(false);
+  const [timedOut, setTimedOut] = useState(false);
+
+  useEffect(() => {
+    if (!timeout) return;
+
+    // Show warning at 80% of timeout duration
+    const warningTime = timeout * 0.8;
+    const warningTimer = setTimeout(() => {
+      if (showTimeoutWarning) {
+        setShowWarning(true);
+      }
+    }, warningTime);
+
+    // Trigger timeout
+    const timeoutTimer = setTimeout(() => {
+      setTimedOut(true);
+      onTimeout?.();
+    }, timeout);
+
+    return () => {
+      clearTimeout(warningTimer);
+      clearTimeout(timeoutTimer);
+    };
+  }, [timeout, onTimeout, showTimeoutWarning]);
+
+  if (timedOut) {
+    return (
+      <div className={containerClasses}>
+        <div className="text-center space-y-4">
+          <div className="w-12 h-12 mx-auto rounded-full bg-destructive/10 flex items-center justify-center">
+            <AlertTriangle className="w-6 h-6 text-destructive" />
+          </div>
+          <div>
+            <h3 className="font-medium text-foreground mb-1">Taking longer than expected</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              This operation is taking longer than usual. There might be a connectivity issue.
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.location.reload()}
+            >
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Refresh Page
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
   const sizeClasses = {
     sm: 'w-4 h-4',
     md: 'w-6 h-6',
