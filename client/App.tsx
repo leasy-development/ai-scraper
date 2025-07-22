@@ -33,7 +33,7 @@ function App() {
             <Sonner />
             <BrowserRouter>
               <div className="min-h-screen bg-background">
-                <AuthDebug />
+                {process.env.NODE_ENV === 'development' && <AuthDebug />}
                 <Routes>
                 {/* Public routes with navigation */}
                 <Route path="/" element={
