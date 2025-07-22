@@ -18,6 +18,7 @@ import CrawlerForm from "./pages/CrawlerForm";
 import Settings from "./pages/Settings";
 import Analytics from "./pages/Analytics";
 import Properties from "./pages/Properties";
+import NotificationDemo from "./pages/NotificationDemo";
 import NotFound from "./pages/NotFound";
 import { AuthDebug } from "./components/AuthDebug";
 import { ErrorBoundary } from "./components/ErrorBoundary";
@@ -82,6 +83,11 @@ function App() {
                 <Route path="/dashboard/analytics" element={
                   <ProtectedRoute>
                     <Analytics />
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/notifications" element={
+                  <ProtectedRoute>
+                    <NotificationDemo />
                   </ProtectedRoute>
                 } />
 
