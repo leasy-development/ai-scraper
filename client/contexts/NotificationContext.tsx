@@ -118,6 +118,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       description: notification.message,
       duration: notification.type === 'loading' ? undefined : (notification.duration || 4000),
       action: notification.action ? React.createElement(ToastAction, {
+        altText: notification.action.label,
         onClick: notification.action.onClick,
         children: notification.action.label,
       }) : undefined,
