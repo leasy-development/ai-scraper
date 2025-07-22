@@ -58,6 +58,7 @@ const App = () => (
                   <main>
                     <NotFound />
                   </main>
+                  <Footer />
                 </div>
               } />
             </Routes>
