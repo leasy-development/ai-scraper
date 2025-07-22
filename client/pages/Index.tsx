@@ -213,15 +213,9 @@ export default function Index() {
             Watch how easy it is to create, manage, and monitor web crawlers with our intuitive dashboard.
           </p>
 
-          {/* Demo placeholder */}
-          <div className="glass rounded-3xl p-8 max-w-4xl mx-auto">
-            <div className="aspect-video bg-gradient-to-r from-primary/20 to-gradient-via/20 rounded-2xl flex items-center justify-center">
-              <div className="text-center">
-                <PlayCircle className="w-20 h-20 mx-auto mb-4 text-primary" />
-                <h3 className="text-2xl font-bold mb-2">Interactive Demo</h3>
-                <p className="text-muted-foreground">Click to see the dashboard in action</p>
-              </div>
-            </div>
+          {/* Interactive Demo Login */}
+          <div className="max-w-lg mx-auto">
+            <DemoLogin />
           </div>
         </div>
       </section>
