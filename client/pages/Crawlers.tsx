@@ -245,9 +245,7 @@ export default function Crawlers() {
         <Card className="glass border-border/50">
           <CardContent className="p-0">
             {isLoading ? (
-              <div className="flex items-center justify-center py-12">
-                <Loader2 className="w-8 h-8 animate-spin text-primary" />
-              </div>
+              <TableLoading />
             ) : crawlers.length === 0 ? (
               <div className="text-center py-12">
                 <div className="text-muted-foreground mb-4">
