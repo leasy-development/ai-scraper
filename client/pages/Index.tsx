@@ -114,38 +114,38 @@ export default function Index() {
             {[
               {
                 icon: Rocket,
-                title: "Lightning Fast",
-                description: "Optimized for speed with cutting-edge performance techniques and modern architecture.",
+                title: "AI-Powered Extraction",
+                description: "Advanced machine learning algorithms automatically adapt to website changes and extract data intelligently.",
                 gradient: "from-blue-500 to-cyan-500"
               },
               {
                 icon: Palette,
-                title: "Beautiful Design",
-                description: "Stunning visual design with glassmorphism effects and smooth animations.",
+                title: "Visual Data Selection",
+                description: "Point-and-click interface to select data elements with intelligent pattern recognition.",
                 gradient: "from-purple-500 to-pink-500"
               },
               {
                 icon: Code2,
-                title: "Developer Friendly",
-                description: "Built with modern tools and best practices for seamless development experience.",
+                title: "API-First Design",
+                description: "RESTful APIs and webhooks for seamless integration with your existing systems and workflows.",
                 gradient: "from-green-500 to-emerald-500"
               },
               {
                 icon: Shield,
-                title: "Enterprise Security",
-                description: "Bank-level security with advanced encryption and compliance standards.",
+                title: "Anti-Detection",
+                description: "Advanced stealth techniques including proxy rotation, browser fingerprinting, and CAPTCHA solving.",
                 gradient: "from-red-500 to-orange-500"
               },
               {
                 icon: Zap,
-                title: "Real-time Updates",
-                description: "Instant synchronization and live updates across all connected devices.",
+                title: "Real-time Monitoring",
+                description: "Live monitoring of scraping jobs with instant alerts for failures or data changes.",
                 gradient: "from-yellow-500 to-amber-500"
               },
               {
                 icon: Globe,
-                title: "Global Scale",
-                description: "Worldwide infrastructure with edge computing for optimal performance.",
+                title: "Global Infrastructure",
+                description: "Distributed scraping network with geo-location support for accessing region-specific content.",
                 gradient: "from-indigo-500 to-purple-500"
               }
             ].map((feature, index) => (
