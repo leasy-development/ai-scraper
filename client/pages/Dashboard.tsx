@@ -5,15 +5,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { 
-  Spider, 
-  TrendingUp, 
-  Clock, 
-  CheckCircle, 
+import {
+  Spider,
+  TrendingUp,
+  Clock,
+  CheckCircle,
   AlertCircle,
   Plus,
   ArrowRight,
-  Activity
+  Activity,
+  Rocket
 } from "lucide-react";
 import { CrawlerStatus, STATUS_LABELS, STATUS_COLORS } from "@shared/crawler";
 
