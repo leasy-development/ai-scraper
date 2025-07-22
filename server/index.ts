@@ -39,6 +39,14 @@ export function createServer() {
   app.put("/api/crawlers/:id", updateCrawler);
   app.delete("/api/crawlers/:id", deleteCrawler);
 
+  // Property routes
+  app.get("/api/properties", getProperties);
+  app.get("/api/properties/stats", getPropertyStats);
+  app.get("/api/properties/:id", getProperty);
+  app.post("/api/properties", createProperty);
+  app.put("/api/properties/:id", updateProperty);
+  app.delete("/api/properties/:id", deleteProperty);
+
   // Catch-all for undefined API routes - return JSON error instead of HTML
   app.use("/api/*", (_req, res) => {
     res.status(404).json({
