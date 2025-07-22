@@ -17,10 +17,9 @@ import { Mail, Lock, Eye, EyeOff, Loader2, Sparkles } from 'lucide-react';
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSwitchToRegister: () => void;
 }
 
-export function LoginModal({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) {
+export function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -163,16 +162,7 @@ export function LoginModal({ isOpen, onClose, onSwitchToRegister }: LoginModalPr
             )}
           </Button>
 
-          <div className="text-center text-sm text-muted-foreground">
-            Don't have an account?{' '}
-            <Button
-              variant="link"
-              className="p-0 h-auto text-primary font-medium"
-              onClick={onSwitchToRegister}
-            >
-              Create one now
-            </Button>
-          </div>
+
         </form>
       </DialogContent>
     </Dialog>
