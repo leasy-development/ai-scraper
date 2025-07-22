@@ -43,18 +43,39 @@ function App() {
                 } />
 
                 {/* Protected dashboard routes without public navigation */}
-                <Route path="/dashboard/*" element={
+                <Route path="/dashboard" element={
                   <ProtectedRoute>
-                    <Routes>
-                      <Route path="/" element={<Dashboard />} />
-                    <Route path="/crawlers" element={<Crawlers />} />
-                    <Route path="/crawlers/new" element={<CrawlerForm />} />
-                    <Route path="/crawlers/:id/edit" element={<CrawlerForm />} />
-                    <Route path="/properties" element={<Properties />} />
-                    <Route path="/settings" element={<Settings />} />
-                    <Route path="/analytics" element={<Analytics />} />
-                    <Route path="*" element={<NotFound />} />
-                    </Routes>
+                    <Dashboard />
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/crawlers" element={
+                  <ProtectedRoute>
+                    <Crawlers />
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/crawlers/new" element={
+                  <ProtectedRoute>
+                    <CrawlerForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/crawlers/:id/edit" element={
+                  <ProtectedRoute>
+                    <CrawlerForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/properties" element={
+                  <ProtectedRoute>
+                    <Properties />
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/settings" element={
+                  <ProtectedRoute>
+                    <Settings />
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/analytics" element={
+                  <ProtectedRoute>
+                    <Analytics />
                   </ProtectedRoute>
                 } />
 
