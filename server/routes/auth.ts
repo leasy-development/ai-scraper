@@ -32,7 +32,7 @@ async function initDemoUser() {
 
 // Initialize demo user
 initDemoUser().catch(console.error);
-const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production';
+export const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production';
 
 // Helper function to generate JWT token
 function generateToken(userId: string): string {
@@ -40,12 +40,12 @@ function generateToken(userId: string): string {
 }
 
 // Helper function to hash password
-async function hashPassword(password: string): Promise<string> {
+export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 12);
 }
 
 // Helper function to compare password
-async function comparePassword(password: string, hashedPassword: string): Promise<boolean> {
+export async function comparePassword(password: string, hashedPassword: string): Promise<boolean> {
   return bcrypt.compare(password, hashedPassword);
 }
 
