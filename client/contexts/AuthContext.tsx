@@ -178,6 +178,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const { user, token } = data;
 
       localStorage.setItem('auth_token', token);
+
+      // Set demo flag if this is the demo user
+      if (user.email === 'demo@aiscraper.com') {
+        localStorage.setItem('demo_login_flag', 'true');
+      }
+
       setAuthState({
         user,
         isAuthenticated: true,
