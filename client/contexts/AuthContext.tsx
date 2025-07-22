@@ -73,13 +73,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             console.error('Auth verification failed:', error);
           }
 
-          // On any error, remove token and set unauthenticated
-          localStorage.removeItem('auth_token');
-          setAuthState({
-            user: null,
-            isAuthenticated: false,
-            isLoading: false,
-          });
+          // Check if this might be a demo user token and allow offline mode
+          const storedToken = localStorage.getItem('auth_token');
+          if (storedToken && this.isDemoUserToken(storedToken)) {
+            // Allow demo user to work offline
+            setAuthState({
+              user: {
+                id: 'demo-user-123',
+                name: 'Demo User',
+                email: 'demo@aiscraper.com'
+              },
+              isAuthenticated: true,
+              isLoading: false,
+            });
+            console.info('Running in offline mode for demo user');
+          } else {
+            // On any error, remove token and set unauthenticated
+            localStorage.removeItem('auth_token');
+            setAuthState({
+              user: null,
+              isAuthenticated: false,
+              isLoading: false,
+            });
+          }
         }
       } catch (error) {
         console.error('Auth check failed:', error);
