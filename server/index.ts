@@ -25,6 +25,10 @@ export function createServer() {
   app.post("/api/auth/login", handleLogin);
   app.get("/api/auth/verify", handleVerify);
   app.get("/api/auth/profile", handleProfile);
+  app.put("/api/auth/profile", updateProfile);
+  app.put("/api/auth/change-password", changePassword);
+  app.delete("/api/auth/delete-account", deleteAccount);
+  app.get("/api/auth/stats", getAccountStats);
 
   // Crawler routes
   app.get("/api/crawlers", getCrawlers);
