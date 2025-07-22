@@ -128,6 +128,9 @@ export default function Crawlers() {
       }
     } catch (error) {
       console.error('Failed to delete crawler:', error);
+      // In demo mode, just remove from local state
+      setCrawlers(prev => prev.filter(c => c.id !== id));
+      setTotalCrawlers(prev => prev - 1);
     }
   };
 
