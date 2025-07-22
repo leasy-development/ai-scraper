@@ -64,7 +64,7 @@ export default function Dashboard() {
           by_status: {
             todo: 1,
             in_progress: 2,
-            qa: 1,
+            ready_for_qa: 1,
             completed: 1,
             failed: 1
           }
@@ -78,7 +78,7 @@ export default function Dashboard() {
         by_status: {
           todo: 1,
           in_progress: 2,
-          qa: 1,
+          ready_for_qa: 1,
           completed: 1,
           failed: 1
         }
