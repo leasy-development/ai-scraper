@@ -19,6 +19,10 @@ import {
 export function Navigation() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+
+  const { isAuthenticated, isLoading } = useAuth();
 
   useEffect(() => {
     // Initialize dark mode based on system preference or stored value
