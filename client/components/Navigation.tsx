@@ -101,14 +101,34 @@ export function Navigation() {
                 <Moon className="w-5 h-5" />
               )}
             </Button>
-            
+
             <Button variant="ghost" size="icon" className="hover-glow">
               <Github className="w-5 h-5" />
             </Button>
-            
-            <Button className="btn-gradient">
-              Get Started
-            </Button>
+
+            {!isLoading && (
+              isAuthenticated ? (
+                <UserDropdown />
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="ghost"
+                    onClick={() => setIsLoginModalOpen(true)}
+                    className="hover-glow"
+                  >
+                    <LogIn className="w-4 h-4 mr-2" />
+                    Sign In
+                  </Button>
+                  <Button
+                    className="btn-gradient"
+                    onClick={() => setIsRegisterModalOpen(true)}
+                  >
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    Get Started
+                  </Button>
+                </div>
+              )
+            )}
           </div>
 
           {/* Mobile menu button */}
