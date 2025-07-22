@@ -151,6 +151,12 @@ export default function Crawlers() {
       }
     } catch (error) {
       console.error('Failed to update crawler status:', error);
+      // In demo mode, just update local state
+      setCrawlers(prev => prev.map(crawler =>
+        crawler.id === id
+          ? { ...crawler, status, updated_at: new Date() }
+          : crawler
+      ));
     }
   };
 
